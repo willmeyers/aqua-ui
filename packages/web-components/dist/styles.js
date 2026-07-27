@@ -1,6 +1,7 @@
 import { AQUA_CSS } from "./css.js";
 export { AQUA_CSS } from "./css.js";
 export function injectStyles(doc = document) {
+    doc.documentElement.classList.add("aqua");
     if (doc.querySelector('style[data-aqua-css], link[href*="aqua.css"]'))
         return;
     const s = doc.createElement("style");

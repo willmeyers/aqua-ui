@@ -8,8 +8,8 @@ export class InputBase extends Base {
     }
     _bind(input) {
         this.input = input;
-        input.addEventListener("input", () => { this._value(); this.emit("input", { value: this.value }); });
-        input.addEventListener("change", () => { this._value(); this.emit("change", { value: this.value }); });
+        input.addEventListener("input", (e) => { e.stopPropagation(); this._value(); this.emit("input", { value: this.value }); });
+        input.addEventListener("change", (e) => { e.stopPropagation(); this._value(); this.emit("change", { value: this.value }); });
         this._value();
     }
     _value() {

@@ -90,7 +90,11 @@ export class AquaStepper extends InputBase {
             : null;
         if (box) {
             box.value = String(this.value);
-            box.addEventListener("change", () => (this.value = num(box.value, this.value)));
+            box.addEventListener("change", (e) => {
+                e.stopPropagation();
+                this.value = num(box.value, this.value);
+                this.emit("change", { value: this.value });
+            });
         }
         const mk = (label, dir) => {
             const b = el("button", { "aria-label": label, disabled: this.disabled });

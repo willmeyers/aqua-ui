@@ -16,12 +16,13 @@ globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 
 const { createRoot } = await import("react-dom/client");
 const React = (await import("react")).default;
-const { AquaButtonGroup, AquaProgress, AquaWindow } = await import("@aqua-ui/react");
+const { AquaButtonGroup, AquaField, AquaProgress, AquaWindow } = await import("@aqua-ui/react");
 
 const host = document.createElement("div");
 document.body.appendChild(host);
 
 let changed = null;
+const inputFires = [];
 const app = React.createElement(
   "div", null,
   React.createElement(AquaButtonGroup, {
@@ -32,6 +33,10 @@ const app = React.createElement(
     React.createElement("button", { value: "b" }, "B"),
   ),
   React.createElement(AquaProgress, { id: "prog", value: 40, max: 100 }),
+  React.createElement(AquaField, {
+    id: "fld", label: "Name",
+    onInput: (e) => { inputFires.push(e.detail); },
+  }),
   React.createElement(AquaWindow, { id: "win", label: "Test", metal: true }, "hello"),
 );
 
@@ -63,6 +68,17 @@ if (!w.querySelector(".title-bar-text") ||
 if (!w.querySelector(".window-body")) fail("window body missing");
 
 if (!document.querySelector("style[data-aqua-css]")) fail("bundled stylesheet was not injected on import");
+if (!document.documentElement.classList.contains("aqua")) fail("root .aqua scope class was not applied");
+
+const fld = document.getElementById("fld");
+const inner = fld && fld.querySelector("input");
+if (!inner) fail("field did not render an input");
+await act(async () => {
+  inner.value = "cheetah";
+  inner.dispatchEvent(new Event("input", { bubbles: true }));
+});
+if (inputFires.length !== 1) fail(`input handler fired ${inputFires.length} times, expected exactly once`);
+if (!inputFires[0] || inputFires[0].value !== "cheetah") fail("input event lacked detail.value");
 
 console.log("react smoke: all assertions passed");
 process.exit(0);

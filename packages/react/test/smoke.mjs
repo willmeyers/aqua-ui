@@ -62,5 +62,7 @@ if (!w.querySelector(".title-bar-text") ||
     w.querySelector(".title-bar-text").textContent !== "Test") fail("window label wrong");
 if (!w.querySelector(".window-body")) fail("window body missing");
 
+if (!document.querySelector("style[data-aqua-css]")) fail("bundled stylesheet was not injected on import");
+
 console.log("react smoke: all assertions passed");
 process.exit(0);

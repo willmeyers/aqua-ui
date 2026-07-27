@@ -1,6 +1,10 @@
 
+import { injectStyles } from "./styles.js";
+
 export { Base, define } from "./base.js";
 export { el, fill, nextId, num, wire } from "./util.js";
+
+if (typeof document !== "undefined") injectStyles();
 
 export { AquaWindow } from "./window.js";
 export { AquaButtonGroup } from "./button-group.js";

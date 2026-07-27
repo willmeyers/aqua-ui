@@ -80,5 +80,12 @@ await act(async () => {
 if (inputFires.length !== 1) fail(`input handler fired ${inputFires.length} times, expected exactly once`);
 if (!inputFires[0] || inputFires[0].value !== "cheetah") fail("input event lacked detail.value");
 
+const { readFileSync } = await import("node:fs");
+const own = JSON.parse(readFileSync(new URL("../package.json", import.meta.url)));
+const wc = JSON.parse(readFileSync(new URL("../../web-components/package.json", import.meta.url)));
+if (own.dependencies["@aqua-ui/web-components"] !== wc.version) {
+  fail(`version drift: react depends on web-components@${own.dependencies["@aqua-ui/web-components"]} but workspace is ${wc.version}`);
+}
+
 console.log("react smoke: all assertions passed");
 process.exit(0);

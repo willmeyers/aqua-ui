@@ -21,7 +21,7 @@
     "test": "node test/smoke.mjs"
   },
   "dependencies": {
-    "@aqua-ui/web-components": "0.1.0"
+    "@aqua-ui/web-components": "0.1.1"
   },
   "peerDependencies": {
     "react": ">=18"

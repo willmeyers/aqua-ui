@@ -1,0 +1,34 @@
+    <section class="sec" id="get-started">
+      <h2>Get Started</h2>
+      <div class="item">
+        <p class="lede">Install <code>@aqua-ui/web-components</code> for web
+          components or <code>@aqua-ui/react</code> for React.</p>
+        <aqua-button-group id="pm" value="npm" label="Package manager">
+          <button value="npm">npm</button>
+          <button value="yarn">yarn</button>
+          <button value="bun">bun</button>
+        </aqua-button-group>
+        <div class="install-grid">
+          <div>
+            <div class="cap">Web Components</div>
+            <pre id="pm-wc">npm install @aqua-ui/web-components</pre>
+          </div>
+          <div>
+            <div class="cap">React</div>
+            <pre id="pm-react">npm install @aqua-ui/react</pre>
+          </div>
+        </div>
+<doc-snippet>
+<pre data-lang="wc">&lt;script type="module"&gt;import "@aqua-ui/web-components";&lt;/script&gt;
+
+&lt;aqua-button default&gt;OK&lt;/aqua-button&gt;</pre>
+<pre data-lang="tsx">import { AquaWindow, AquaButton } from "@aqua-ui/react";
+
+export const App = () =&gt; (
+  &lt;AquaWindow label="Untitled"&gt;
+    &lt;AquaButton default&gt;OK&lt;/AquaButton&gt;
+  &lt;/AquaWindow&gt;
+);</pre>
+</doc-snippet>
+      </div>
+    </section>

@@ -1,0 +1,189 @@
+  </main>
+</div>
+
+<script type="module" src="../packages/web-components/dist/index.js"></script>
+<script>
+  const hlEsc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+  function hlMarkup(src) {
+    let out = "", i = 0;
+    const re = /<!--[\s\S]*?-->|<\/?[a-zA-Z][^>]*>/g;
+    let m;
+    while ((m = re.exec(src))) {
+      out += hlEsc(src.slice(i, m.index));
+      const t = m[0];
+      if (t.startsWith("<!--")) {
+        out += `<span class="tok-c">${hlEsc(t)}</span>`;
+      } else {
+        const mm = t.match(/^(<\/?)([\w-]+)([\s\S]*?)(\/?>)$/);
+        const attrs = hlEsc(mm[3]).replace(
+          /([\w-]+)(="[^"]*")?/g,
+          (a, n, v) => `<span class="tok-a">${n}</span>` +
+            (v ? `=<span class="tok-s">${v.slice(1)}</span>` : ""),
+        );
+        out += hlEsc(mm[1]) + `<span class="tok-t">${mm[2]}</span>` + attrs + hlEsc(mm[4]);
+      }
+      i = re.lastIndex;
+    }
+    return out + hlEsc(src.slice(i));
+  }
+  function hlTS(src) {
+    let out = "", i = 0;
+    const re = new RegExp(
+      "(\\/\\/[^\\n]*|\\/\\*[\\s\\S]*?\\*\\/)" +
+      "|(\"(?:[^\"\\\\]|\\\\.)*\"|'(?:[^'\\\\]|\\\\.)*'|`(?:[^`\\\\]|\\\\.)*`)" +
+      "|(<\\/?[A-Za-z][\\w.-]*)" +
+      "|\\b(import|from|export|const|let|var|new|await|async|function|return|as|null|true|false)\\b",
+      "g");
+    let m;
+    while ((m = re.exec(src))) {
+      out += hlEsc(src.slice(i, m.index));
+      if (m[1]) out += `<span class="tok-c">${hlEsc(m[1])}</span>`;
+      else if (m[2]) out += `<span class="tok-s">${hlEsc(m[2])}</span>`;
+      else if (m[3]) out += hlEsc(m[3][1] === "/" ? "</" : "<") +
+        `<span class="tok-t">${m[3].replace(/^<\/?/, "")}</span>`;
+      else out += `<span class="tok-k">${m[4]}</span>`;
+      i = re.lastIndex;
+    }
+    return out + hlEsc(src.slice(i));
+  }
+  function hlCSS(src) {
+    let out = "", i = 0;
+    const re = /(\/\*[\s\S]*?\*\/)|([-\w]+)(?=\s*:)|(#[0-9a-fA-F]{3,8}\b|"[^"]*")/g;
+    let m;
+    while ((m = re.exec(src))) {
+      out += hlEsc(src.slice(i, m.index));
+      if (m[1]) out += `<span class="tok-c">${hlEsc(m[1])}</span>`;
+      else if (m[2]) out += `<span class="tok-a">${m[2]}</span>`;
+      else out += `<span class="tok-s">${hlEsc(m[3])}</span>`;
+      i = re.lastIndex;
+    }
+    return out + hlEsc(src.slice(i));
+  }
+  function highlight(pre, kind) {
+    const src = pre.textContent;
+    pre.innerHTML = kind === "ts" ? hlTS(src) : kind === "css" ? hlCSS(src) : hlMarkup(src);
+  }
+
+  (() => {
+    const LANGS = [["wc", "Web Component"], ["tsx", "React"]];
+    const KEY = "aqua-docs-snippet-lang";
+    const all = [];
+    customElements.define("doc-snippet", class extends HTMLElement {
+      connectedCallback() {
+        if (this._built) return;
+        this._built = true;
+        this._pres = new Map([...this.querySelectorAll(":scope > pre")]
+          .map((p) => [p.dataset.lang || "wc", p]));
+        for (const [lang, p] of this._pres) {
+          highlight(p, lang === "tsx" ? "ts" : "markup");
+        }
+        this.classList.add("aqua");
+        const strip = document.createElement("div");
+        strip.className = "tabs";
+        strip.setAttribute("role", "tablist");
+        for (const [k, label] of LANGS) {
+          if (!this._pres.has(k)) continue;
+          const b = document.createElement("button");
+          b.type = "button";
+          b.setAttribute("role", "tab");
+          b.dataset.lang = k;
+          b.textContent = label;
+          b.addEventListener("click", () => {
+            localStorage.setItem(KEY, k);
+            all.forEach((s) => s._show(k));
+          });
+          strip.append(b);
+        }
+        const panel = document.createElement("div");
+        panel.className = "tab-panel";
+        panel.setAttribute("role", "tabpanel");
+        panel.append(...this._pres.values());
+        this.replaceChildren(strip, panel);
+        this._strip = strip;
+        all.push(this);
+        this._show(localStorage.getItem(KEY) || "wc");
+      }
+      _show(k) {
+        if (!this._pres.has(k)) k = "wc";
+        for (const [lang, p] of this._pres) p.style.display = lang === k ? "" : "none";
+        for (const b of this._strip.children) {
+          b.setAttribute("aria-selected", String(b.dataset.lang === k));
+        }
+      }
+    });
+  })();
+  for (const pre of document.querySelectorAll("pre:not(doc-snippet pre)")) {
+    const t = pre.textContent.trimStart();
+    if (t.startsWith("<")) highlight(pre, "markup");
+    else if (t.startsWith("--") || t.startsWith("/*")) highlight(pre, "css");
+  }
+  const PM = { npm: "npm install", yarn: "yarn add", bun: "bun add" };
+  document.getElementById("pm").addEventListener("change", (e) => {
+    const cmd = PM[e.detail.value];
+    document.getElementById("pm-wc").textContent = cmd + " @aqua-ui/web-components";
+    document.getElementById("pm-react").textContent = cmd + " @aqua-ui/react";
+  });
+  fetch("icons-fragment.html").then((r) => r.text())
+    .then((t) => { document.getElementById("icon-grid").innerHTML = t; })
+    .catch(() => { document.getElementById("icon-grid").textContent = "icons unavailable"; });
+  {
+    const pane = document.querySelector("main.content");
+    const secs = [...document.querySelectorAll("section.sec[id]")];
+    const link = (id) => document.querySelector(`.toc a[href="#${id}"]`);
+    let raf = 0;
+    const spy = () => {
+      raf = 0;
+      const top = pane.getBoundingClientRect().top + 100;
+      let cur = secs[0];
+      for (const s of secs) if (s.getBoundingClientRect().top <= top) cur = s;
+      for (const s of secs) link(s.id)?.classList.toggle("active", s === cur);
+    };
+    pane.addEventListener("scroll", () => { if (!raf) raf = requestAnimationFrame(spy); },
+                          { passive: true });
+    spy();
+  }
+  tocsearch.addEventListener("input", () => {
+    const q = tocsearch.value.trim().toLowerCase();
+    document.querySelectorAll(".toc li").forEach((li) => {
+      if (li.classList.contains("back")) return;
+      if (li.classList.contains("group")) { li.style.display = q ? "none" : ""; return; }
+      const a = li.querySelector("a");
+      if (a) li.style.display = !q || a.textContent.toLowerCase().includes(q) ? "" : "none";
+    });
+  });
+  doalert.addEventListener("click", async () => {
+    const r = await AquaComponents.alert({
+      title: "Are you sure you want to empty the Trash?",
+      text: "You cannot undo this action.",
+      buttons: [{ id: "cancel", label: "Cancel" },
+                { id: "ok", label: "Empty", default: true }],
+    });
+  });
+</script>
+<script>
+  for (const demo of document.querySelectorAll(".sec:not(#windows) .demo")) {
+    const item = demo.closest(".item");
+    const sec = demo.closest(".sec");
+    const h3 = item && item.querySelector("h3");
+    const h2 = sec && sec.querySelector("h2");
+    const win = document.createElement("div");
+    win.className = "window demo-window";
+    win.innerHTML =
+      '<div class="title-bar">' +
+        '<div class="title-bar-controls">' +
+          '<button aria-label="Close"><span>&times;</span></button>' +
+          '<button aria-label="Minimize"><span>&minus;</span></button>' +
+          '<button aria-label="Zoom"><span>+</span></button>' +
+        '</div>' +
+        '<div class="title-bar-text"></div>' +
+        '<div style="width:49px;flex:0 0 auto"></div>' +
+      '</div>' +
+      '<div class="window-body"></div>';
+    win.querySelector(".title-bar-text").textContent =
+      (h3 && h3.textContent) || (h2 && h2.textContent) || "Demo";
+    demo.parentNode.insertBefore(win, demo);
+    win.querySelector(".window-body").appendChild(demo);
+  }
+</script>
+</body>
+</html>

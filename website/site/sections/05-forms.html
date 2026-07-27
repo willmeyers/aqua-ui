@@ -1,0 +1,75 @@
+    <section class="sec" id="forms">
+      <h2>Forms</h2><div class="rule"></div>
+      <div class="item">
+        <div class="demo">
+          <form id="demoform" style="display:grid;grid-template-columns:repeat(auto-fill,210px);gap:24px 44px;align-items:start">
+            <div class="stack">
+              <div class="cap">Checkbox &amp; Radio</div>
+              <aqua-checkbox name="disks" checked>Show disks</aqua-checkbox>
+              <aqua-checkbox indeterminate>Mixed state</aqua-checkbox>
+              <aqua-checkbox disabled>Disabled</aqua-checkbox>
+              <aqua-radio name="size" value="small" checked>Small</aqua-radio>
+              <aqua-radio name="size" value="large">Large</aqua-radio>
+            </div>
+            <div class="stack">
+              <div class="cap">Text &amp; Popup</div>
+              <aqua-field label="Name" name="name" value="Untitled"></aqua-field>
+              <aqua-field label="Search" type="search" placeholder="Search"></aqua-field>
+              <div class="field-row-stacked">
+                <label for="units-i">Units</label>
+                <aqua-select id="units" name="units">
+                  <option value="k">Thousands</option>
+                  <option value="m">Millions</option>
+                </aqua-select>
+              </div>
+            </div>
+            <div class="stack">
+              <div class="cap">Slider &amp; Stepper</div>
+              <aqua-slider name="vol" min="0" max="100" value="60" round style="width:100%"></aqua-slider>
+              <aqua-slider min="0" max="100" value="40" ticks="7" style="width:100%"></aqua-slider>
+              <aqua-stepper name="qty" value="10" min="0" max="20" field></aqua-stepper>
+            </div>
+          </form>
+        </div>
+        <doc-snippet>
+<pre data-lang="wc">&lt;aqua-checkbox name="disks" checked&gt;Show disks&lt;/aqua-checkbox&gt;
+&lt;aqua-radio name="size" value="small" checked&gt;Small&lt;/aqua-radio&gt;
+&lt;aqua-field label="Name" name="name" value="Untitled"&gt;&lt;/aqua-field&gt;
+&lt;aqua-select label="Units" name="units"&gt;&lt;option&gt;…&lt;/option&gt;&lt;/aqua-select&gt;
+&lt;aqua-slider name="vol" min="0" max="100" value="60" round&gt;&lt;/aqua-slider&gt;
+&lt;aqua-stepper name="qty" value="10" min="0" max="20" field&gt;&lt;/aqua-stepper&gt;</pre>
+<pre data-lang="tsx">import { AquaCheckbox, AquaField, AquaSlider } from "@aqua-ui/react";
+
+&lt;AquaCheckbox name="disks" checked
+              onChange={(e) =&gt; setDisks(e.detail.value != null)}&gt;
+  Show disks
+&lt;/AquaCheckbox&gt;
+&lt;AquaField label="Name" value={name}
+           onInput={(e) =&gt; setName(e.detail.value)} /&gt;
+&lt;AquaSlider name="vol" min={0} max={100} value={vol} round
+            onInput={(e) =&gt; setVol(e.detail.value)} /&gt;</pre>
+</doc-snippet>
+        <div class="tree-view props"><details><summary>Props &amp; Events</summary><table class="api">
+          <tr><td>all of them</td><td>form-associated: they submit, reset and validate like native inputs, and fire <code>change</code> / <code>input</code> with <code>detail.value</code></td></tr>
+          <tr><th colspan="2">aqua-checkbox · aqua-radio</th></tr>
+          <tr><td>checked · indeterminate · disabled</td><td>state; radios with the same <code>name</code> uncheck each other</td></tr>
+          <tr><td>name · value</td><td>what submits (<code>value</code> defaults to <code>on</code>); children are the label</td></tr>
+          <tr><th colspan="2">aqua-field</th></tr>
+          <tr><td>label</td><td>stacks a label above the input</td></tr>
+          <tr><td>type</td><td><code>text</code> (default), <code>search</code>, <code>textarea</code> (with <code>rows</code>), or any input type</td></tr>
+          <tr><td>value · placeholder · readonly · disabled · name</td><td>as on a native input</td></tr>
+          <tr><th colspan="2">aqua-select</th></tr>
+          <tr><td>label · value · disabled · name</td><td>children are <code>&lt;option&gt;</code>s; the <code>options</code> property replaces them from script</td></tr>
+          <tr><td>popup</td><td>pops <em>over</em> its button with the current choice under the pointer, which no native <code>&lt;select&gt;</code> reproduces</td></tr>
+          <tr><th colspan="2">aqua-slider</th></tr>
+          <tr><td>min · max · step · value</td><td>numeric range, as on a native range input</td></tr>
+          <tr><td>ticks</td><td>tick count; ticks give the pentagon thumb</td></tr>
+          <tr><td>round</td><td>the glossy round thumb</td></tr>
+          <tr><th colspan="2">aqua-stepper</th></tr>
+          <tr><td>value · min · max · step</td><td>the number it steps</td></tr>
+          <tr><td>field</td><td>shows the editable text box beside the arrows</td></tr>
+          <tr><td>wrap</td><td>wraps at the ends instead of clamping</td></tr>
+          <tr><td>press and hold</td><td>repeats, accelerating once, as the real one did</td></tr>
+        </table></details></div>
+      </div>
+    </section>

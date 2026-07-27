@@ -1,0 +1,90 @@
+    <section class="sec" id="containers">
+      <h2>Containers</h2><div class="rule"></div>
+      <div class="item">
+        <div class="demo" style="display:grid;grid-template-columns:repeat(auto-fill,250px);gap:26px 44px;align-items:start">
+          <div>
+            <div class="cap">Tabs</div>
+            <aqua-tabs id="tabs" style="width:250px">
+              <aqua-tab label="Display" selected><b>Display</b><br>Resolutions and colours.
+                <aqua-checkbox checked>Show in menu bar</aqua-checkbox></aqua-tab>
+              <aqua-tab label="Color">Calibrate your monitor.</aqua-tab>
+              <aqua-tab label="Geometry" disabled>Unavailable.</aqua-tab>
+            </aqua-tabs>
+          </div>
+          <div>
+            <div class="cap">Group Box</div>
+            <aqua-group-box label="Disks" style="width:250px">
+              <aqua-checkbox checked>On the Desktop</aqua-checkbox>
+              <aqua-checkbox>Connected servers</aqua-checkbox>
+            </aqua-group-box>
+          </div>
+          <div>
+            <div class="cap">Tree</div>
+            <aqua-tree id="tree" style="width:250px">
+              <aqua-tree-item label="Documents" open>
+                <aqua-tree-item label="Letter.rtf"></aqua-tree-item>
+                <aqua-tree-item label="Notes.txt"></aqua-tree-item>
+              </aqua-tree-item>
+              <aqua-tree-item label="Sites"></aqua-tree-item>
+            </aqua-tree>
+          </div>
+          <div>
+            <div class="cap">Table</div>
+            <aqua-table id="table" sortable selectable style="width:250px">
+              <table style="width:100%">
+                <thead><tr><th>Name</th><th>Size</th></tr></thead>
+                <tbody>
+                  <tr><td>Desktop</td><td>4</td></tr>
+                  <tr><td>Library</td><td>1200</td></tr>
+                  <tr><td>Movies</td><td>8</td></tr>
+                </tbody>
+              </table>
+            </aqua-table>
+          </div>
+          <div>
+            <div class="cap">Scroll</div>
+            <aqua-scroll style="display:block;width:250px;height:150px;overflow:auto;background:#fff;border:1px solid #9a9a9a;border-radius:4px">
+              <div style="height:600px;width:400px;padding:10px 12px;background:repeating-linear-gradient(to bottom,#fff 0 24px,#f2f5fa 24px 48px)">
+                Scroll me. The arrows sit at both ends, one per end,
+                exactly as the original drew them.
+              </div>
+            </aqua-scroll>
+          </div>
+        </div>
+        <doc-snippet>
+<pre data-lang="wc">&lt;aqua-tabs&gt;&lt;aqua-tab label="Display" selected&gt;…&lt;/aqua-tab&gt;&lt;/aqua-tabs&gt;
+&lt;aqua-group-box label="Disks"&gt;…&lt;/aqua-group-box&gt;
+&lt;aqua-tree&gt;&lt;aqua-tree-item label="Documents" open&gt;…&lt;/aqua-tree-item&gt;&lt;/aqua-tree&gt;
+&lt;aqua-table sortable selectable&gt;&lt;table&gt;…&lt;/table&gt;&lt;/aqua-table&gt;
+&lt;aqua-scroll arrows="together"&gt;…&lt;/aqua-scroll&gt;</pre>
+<pre data-lang="tsx">import { AquaTabs, AquaTab, AquaTable } from "@aqua-ui/react";
+
+&lt;AquaTabs selected={tab} onChange={(e) =&gt; setTab(e.detail.value)}&gt;
+  &lt;AquaTab label="Display"&gt;…&lt;/AquaTab&gt;
+  &lt;AquaTab label="Color"&gt;…&lt;/AquaTab&gt;
+&lt;/AquaTabs&gt;
+&lt;AquaTable sortable selectable onSelect={(e) =&gt; pick(e.detail.rows)}&gt;
+  &lt;table&gt;…&lt;/table&gt;
+&lt;/AquaTable&gt;</pre>
+</doc-snippet>
+        <div class="tree-view props"><details><summary>Props &amp; Events</summary><table class="api">
+          <tr><th colspan="2">aqua-tabs · aqua-tab</th></tr>
+          <tr><td>selected</td><td>the active tab&rsquo;s value; <code>change</code> fires with <code>detail.value</code></td></tr>
+          <tr><td>aqua-tab</td><td><code>label</code>, <code>value</code>, <code>selected</code>, <code>disabled</code>; panels stay in the tree when hidden, so components inside keep their state</td></tr>
+          <tr><td>keyboard</td><td>arrows, Home and End move between tabs</td></tr>
+          <tr><th colspan="2">aqua-group-box</th></tr>
+          <tr><td>label · metal</td><td>the legend, and the brushed surface</td></tr>
+          <tr><th colspan="2">aqua-tree · aqua-tree-item</th></tr>
+          <tr><td>aqua-tree-item</td><td><code>label</code>, <code>value</code>, <code>open</code>; nest items for branches</td></tr>
+          <tr><td>select</td><td>fires on a leaf with <code>detail.value</code>; disclosure is native <code>&lt;details&gt;</code>, no JS</td></tr>
+          <tr><th colspan="2">aqua-table</th></tr>
+          <tr><td>sortable</td><td>click (or Enter on) a header to sort; fires <code>sort</code> with <code>detail.column</code> and <code>detail.direction</code></td></tr>
+          <tr><td>selectable · multiple</td><td>click rows to select (⌘/Ctrl extends); fires <code>select</code> with <code>detail.rows</code>, read back via the <code>selection</code> property</td></tr>
+          <tr><td>markup</td><td>enhances a <code>&lt;table&gt;</code> you wrote, so colspans and links survive</td></tr>
+          <tr><th colspan="2">aqua-scroll</th></tr>
+          <tr><td>arrows</td><td><code>ends</code> (the 10.0 default) · <code>together</code> · <code>none</code>. WebKit/Blink only</td></tr>
+          <tr><th colspan="2">aqua-separator</th></tr>
+          <tr><td>vertical</td><td>the rule turned on its side</td></tr>
+        </table></details></div>
+      </div>
+    </section>

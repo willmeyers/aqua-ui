@@ -1,0 +1,101 @@
+    <section class="sec" id="buttons">
+      <h2>Buttons</h2><div class="rule"></div>
+
+      <div class="item">
+        <h3>Push Button</h3>
+        <div class="demo">
+          <aqua-button>Cancel</aqua-button>
+          <aqua-button default>OK</aqua-button>
+          <aqua-button default pulsing>Yes</aqua-button>
+          <aqua-button disabled>Disabled</aqua-button>
+          <aqua-button bevel>Choose…</aqua-button>
+          <aqua-button bevel disabled>Disabled</aqua-button>
+          <button class="round-button" aria-label="Back">&#9664;</button>
+          <button class="round-button" aria-label="Forward">&#9654;</button>
+        </div>
+        <doc-snippet>
+<pre data-lang="wc">&lt;aqua-button&gt;Cancel&lt;/aqua-button&gt;
+&lt;aqua-button default&gt;OK&lt;/aqua-button&gt;
+&lt;aqua-button default pulsing&gt;Yes&lt;/aqua-button&gt;
+&lt;aqua-button disabled&gt;Disabled&lt;/aqua-button&gt;
+&lt;aqua-button bevel&gt;Choose…&lt;/aqua-button&gt;</pre>
+<pre data-lang="tsx">import { AquaButton } from "@aqua-ui/react";
+
+&lt;AquaButton onClick={cancel}&gt;Cancel&lt;/AquaButton&gt;
+&lt;AquaButton default onClick={save}&gt;OK&lt;/AquaButton&gt;
+&lt;AquaButton default pulsing&gt;Yes&lt;/AquaButton&gt;
+&lt;AquaButton disabled&gt;Disabled&lt;/AquaButton&gt;
+&lt;AquaButton bevel&gt;Choose…&lt;/AquaButton&gt;</pre>
+</doc-snippet>
+        <div class="tree-view props"><details><summary>Props &amp; Events</summary><table class="api">
+          <tr><td>default</td><td>the blue gel: the throb's mid-phase, which is the color every resting screenshot shows</td></tr>
+          <tr><td>pulsing</td><td>opt in to the dialog throb</td></tr>
+          <tr><td>bevel</td><td>the square-shouldered bevel face instead of the gel capsule</td></tr>
+          <tr><td>class="round-button"</td><td>the round gel button; content is centered on the sphere</td></tr>
+          <tr><td>square</td><td>tightens the bevel&rsquo;s corners</td></tr>
+          <tr><td>disabled</td><td>disables the native button inside</td></tr>
+          <tr><td>type</td><td><code>button</code> (default) · <code>submit</code> · <code>reset</code>, forwarded to the native button</td></tr>
+          <tr><td>label</td><td>set the text as an attribute instead of children</td></tr>
+          <tr><td>click</td><td>the native event, bubbling from the inner button</td></tr>
+          <tr><td>height</td><td>20px, native; widths are free</td></tr>
+        </table></details></div>
+      </div>
+
+      <div class="item">
+        <h3>Button Group</h3>
+        <div class="demo">
+          <aqua-button-group id="bg1" value="icon" label="View">
+            <button value="icon" icon="icon" label="Icon view"></button>
+            <button value="list" icon="list" label="List view"></button>
+            <button value="column" icon="column" label="Column view"></button>
+          </aqua-button-group>
+          <aqua-button-group id="bg2" value="all">
+            <button value="all">All</button>
+            <button value="mine">Mine</button>
+            <button value="shared">Shared</button>
+          </aqua-button-group>
+          <aqua-button-group id="bg3" multiple value="b">
+            <button value="b">Bold</button>
+            <button value="i">Italic</button>
+          </aqua-button-group>
+          <aqua-button-group id="bg4" momentary>
+            <button value="back">Back</button>
+            <button value="forward">Forward</button>
+          </aqua-button-group>
+          <aqua-button-group value="icon" disabled>
+            <button value="icon" icon="icon"></button>
+            <button value="list" icon="list"></button>
+          </aqua-button-group>
+        </div>
+        <doc-snippet>
+<pre data-lang="wc">&lt;aqua-button-group value="icon" label="View"&gt;
+  &lt;button value="icon"   icon="icon"   label="Icon view"&gt;&lt;/button&gt;
+  &lt;button value="list"   icon="list"   label="List view"&gt;&lt;/button&gt;
+&lt;/aqua-button-group&gt;</pre>
+<pre data-lang="tsx">import { AquaButtonGroup } from "@aqua-ui/react";
+
+&lt;AquaButtonGroup value={view} label="View"
+                 onChange={(e) =&gt; setView(e.detail.value as string)}&gt;
+  &lt;button value="icon" icon="icon" label="Icon view"&gt;&lt;/button&gt;
+  &lt;button value="list" icon="list" label="List view"&gt;&lt;/button&gt;
+&lt;/AquaButtonGroup&gt;</pre>
+</doc-snippet>
+        <div class="tree-view props"><details><summary>Props &amp; Events</summary><table class="api">
+          <tr><td>value</td><td>the chosen segment; a space-separated list when <code>multiple</code> (the <code>values</code> property reads it as an array)</td></tr>
+          <tr><td>label</td><td>accessible name for the group</td></tr>
+          <tr><td>multiple</td><td>toggle group instead of single-select</td></tr>
+          <tr><td>momentary</td><td>plain buttons, no sticky state</td></tr>
+          <tr><td>icons</td><td>force the compact icon sizing (automatic when every segment is an icon)</td></tr>
+          <tr><td>disabled</td><td>disables every segment</td></tr>
+          <tr><td>inactive</td><td>desaturates the selected segment, as an unfocused window did</td></tr>
+          <tr><th colspan="2">Segment children</th></tr>
+          <tr><td>value · label · disabled</td><td>per-segment; <code>label</code> becomes the accessible name for icon segments</td></tr>
+          <tr><td>icon · src</td><td>one of the three original view glyphs, or your own image</td></tr>
+          <tr><th colspan="2">Events</th></tr>
+          <tr><td>change</td><td><code>detail.value</code>: the selection (array when <code>multiple</code>)</td></tr>
+          <tr><td>command</td><td><code>detail.value</code>: the pressed segment, in <code>momentary</code> mode</td></tr>
+          <tr><td>keyboard</td><td>one tab stop; arrows, Home and End move the selection</td></tr>
+        </table></details></div>
+      </div>
+
+    </section>

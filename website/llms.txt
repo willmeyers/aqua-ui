@@ -1,0 +1,18 @@
+# Aqua UI
+
+> The original Aqua desktop (2001, build 4K78) rebuilt in pure CSS — every gradient transcribed
+> from the real widget bitmaps, not eyeballed. One self-contained stylesheet
+> (`aqua.css`), an optional TypeScript custom-element layer
+> (`@aqua-ui/web-components`, tags prefixed `aqua-`, stylesheet bundled), and React
+> bindings (`@aqua-ui/react`, components prefixed `Aqua`).
+
+Ground rules for generated code: wrap Aqua content in a `class="aqua"`
+ancestor; never edit `aqua.css` (generated — source is
+the original widget artwork, outside this repo); prefer native elements with classes over styled divs;
+never stretch a control vertically (widget heights are native to the
+artwork); the embedded Apple artwork is not redistributable.
+
+## Docs
+
+- [components.html](components.html): the human docs — every control live
+  (HTML, needs a browser)

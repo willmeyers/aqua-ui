@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aqua UI for the web</title>
+<link rel="icon" href="assets/logo-32.png">
+<link rel="stylesheet" href="aqua.css?v=8">
+<link rel="stylesheet" href="desktop.css?v=2">
+</head>
+<body>
+<div class="desktop">
+
+  <!-- ---------- menu bar ---------- -->
+  <div class="menubar" role="menubar">
+    <span class="apple" data-menu="#m-apple"><img src="assets/logo-32.png" alt="Aqua UI" style="height:16px;width:auto;display:block"></span>
+    <span class="app-name" data-menu="#m-app">Aqua UI</span>
+    <span class="menu-title" data-menu="#m-file">File</span>
+    <span class="menu-title" data-menu="#m-edit">Edit</span>
+    <span class="menu-title" data-menu="#m-view">View</span>
+    <span class="menu-title" data-menu="#m-window">Window</span>
+    <span class="menu-title" data-menu="#m-help">Help</span>
+    <span class="spacer"></span>
+    <span class="clock-text" id="menu-clock">--:--</span>
+  </div>
+
+  <!-- ---------- menu contents (templates; the menu layer clones them) ---------- -->
+  <ul class="menu" id="m-apple" hidden>
+    <li data-id="about"><span class="label">About Aqua UI</span></li>
+    <li class="separator"></li>
+    <li aria-haspopup="true"><span class="label">Recent Items</span>
+      <ul class="menu">
+        <li data-id="open:button"><span class="label">Button</span></li>
+        <li data-id="open:slider"><span class="label">Slider</span></li>
+        <li data-id="open:tabs"><span class="label">Tabs</span></li>
+      </ul>
+    </li>
+    <li class="separator"></li>
+    <li data-id="sleep" aria-disabled="true"><span class="label">Sleep</span></li>
+    <li data-id="restart" aria-disabled="true"><span class="label">Restart&#8230;</span></li>
+    <li data-id="shutdown"><span class="label">Shut Down&#8230;</span></li>
+  </ul>
+
+  <ul class="menu" id="m-app" hidden>
+    <li data-id="about"><span class="label">About Aqua UI</span></li>
+    <li class="separator"></li>
+    <li data-id="prefs"><span class="label">Preferences&#8230;</span><span class="shortcut">&#8984;,</span></li>
+    <li class="separator"></li>
+    <li data-id="quit"><span class="label">Quit Aqua UI</span><span class="shortcut">&#8984;Q</span></li>
+  </ul>
+
+  <ul class="menu" id="m-file" hidden>
+    <li data-id="launcher"><span class="label">Documentation</span><span class="shortcut">&#8984;N</span></li>
+    <li aria-haspopup="true"><span class="label">Open Component</span>
+      <ul class="menu" id="m-components"></ul>
+    </li>
+    <li class="separator"></li>
+    <li data-id="closewin"><span class="label">Close Window</span><span class="shortcut">&#8984;W</span></li>
+    <li data-id="closeall"><span class="label">Close All</span></li>
+    <li class="separator"></li>
+    <li data-id="savesheet"><span class="label">Save&#8230;</span><span class="shortcut">&#8984;S</span></li>
+  </ul>
+
+  <ul class="menu" id="m-edit" hidden>
+    <li data-id="undo" aria-disabled="true"><span class="label">Undo</span><span class="shortcut">&#8984;Z</span></li>
+    <li class="separator"></li>
+    <li data-id="cut" aria-disabled="true"><span class="label">Cut</span><span class="shortcut">&#8984;X</span></li>
+    <li data-id="copy"><span class="label">Copy</span><span class="shortcut">&#8984;C</span></li>
+    <li data-id="paste" aria-disabled="true"><span class="label">Paste</span><span class="shortcut">&#8984;V</span></li>
+    <li class="separator"></li>
+    <li data-id="selectall"><span class="label">Select All</span><span class="shortcut">&#8984;A</span></li>
+  </ul>
+
+  <ul class="menu" id="m-view" hidden>
+    <li data-id="tile"><span class="label">Tile Windows</span></li>
+    <li data-id="cascade"><span class="label">Cascade Windows</span></li>
+    <li class="separator"></li>
+    <li aria-haspopup="true"><span class="label">Reference</span>
+      <ul class="menu">
+        <li data-id="components"><span class="label">Library Reference&#8230;</span></li>
+        <li data-id="icons"><span class="label">Icon Gallery&#8230;</span></li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul class="menu" id="m-window" hidden>
+    <li data-id="minall"><span class="label">Minimize All</span></li>
+    <li data-id="closeall"><span class="label">Close All</span></li>
+  </ul>
+
+  <ul class="menu" id="m-help" hidden>
+    <li data-id="about"><span class="label">Aqua UI Help</span></li>
+    <li data-id="alertdemo"><span class="label">Show an Alert&#8230;</span></li>
+  </ul>
+
+  <!-- ---------- desktop icon ---------- -->
+  <div class="desktop-icon" style="top:40px;right:24px">
+    <img src="icons/HardDisk.png" alt="Macintosh HD">
+    <span>Macintosh HD</span>
+  </div>
+
+  <!-- ---------- dock (bottom centre) ---------- -->
+  <div class="dock-wrap">
+    <div class="dock">
+      <div class="dock-item running" data-launch="finder"><span class="dock-label">Finder</span><img src="icons/Finder.png" alt="Finder"></div>
+      <div class="dock-item"><span class="dock-label">Mail</span><img src="icons/Mail.png" alt="Mail"></div>
+      <div class="dock-item"><span class="dock-label">Internet Explorer</span><img src="icons/MacIE.png" alt="Internet Explorer"></div>
+      <div class="dock-item"><span class="dock-label">Sherlock</span><img src="icons/Sherlock.png" alt="Sherlock"></div>
+      <div class="dock-item"><span class="dock-label">System Preferences</span><img src="icons/Monitors.png" alt="System Preferences"></div>
+      <div class="dock-item"><span class="dock-label">QuickTime Player</span><img src="icons/QuickTime Player.png" alt="QuickTime Player"></div>
+      <div class="dock-item"><span class="dock-label">Clock</span>
+        <div class="aqua-clock" role="img" aria-label="Clock" style="--clock-face:url(assets/clock-face.png)">
+          <span class="hand hour"></span>
+          <span class="hand minute"></span>
+          <span class="clock-pin"></span>
+        </div>
+      </div>
+      <div class="dock-item"><span class="dock-label">Stickies</span><img src="icons/Stickies.png" alt="Stickies"></div>
+      <div class="dock-item"><span class="dock-label">Help</span><img src="icons/HelpViewer.png" alt="Help"></div>
+      <div class="dock-item"><span class="dock-label">Calculator</span><img src="icons/Calculator.png" alt="Calculator"></div>
+      <div class="dock-item running" data-launch="preview"><span class="dock-label">Preview</span><img src="icons/preview.png" alt="Preview"></div>
+      <div class="dock-divider"></div>
+      <div class="dock-item"><span class="dock-label">Terminal</span><img src="icons/Terminal.png" alt="Terminal"></div>
+      <div class="dock-item" data-trash><span class="dock-label">Trash</span><img src="icons/TrashEmpty.png" alt="Trash"></div>
+    </div>
+  </div>
+
+</div>
+
+<script type="module" src="../packages/web-components/dist/index.js"></script>
+<script src="boot.js?v=2"></script>
+<script src="desktop.js?v=2"></script>
+<script src="desktop-menus.js?v=2"></script>
+<script>
+  // menu-bar text clock
+  (function () {
+    const el = document.getElementById("menu-clock");
+    function t() {
+      const d = new Date();
+      let h = d.getHours(), m = d.getMinutes();
+      const ap = h < 12 ? "AM" : "PM";
+      h = h % 12 || 12;
+      el.textContent = `${h}:${String(m).padStart(2,"0")} ${ap}`;
+    }
+    t(); setInterval(t, 10000);
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+{
+  "name": "@aqua-ui/web-components",
+  "version": "0.0.1",
+  "description": "Aqua UI as custom elements (light-DOM, form-associated, TypeScript), stylesheet bundled",
+  "license": "SEE LICENSE IN README.md",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./*": {
+      "types": "./dist/*.d.ts",
+      "default": "./dist/*.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "node test/selective.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/willmeyers/aqua-ui"
+  },
+  "homepage": "https://github.com/willmeyers/aqua-ui",
+  "keywords": [
+    "aqua",
+    "mac-os-x",
+    "ui",
+    "retro",
+    "web-components"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "tag": "alpha"
+  }
+}

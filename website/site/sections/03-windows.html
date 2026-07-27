@@ -1,0 +1,105 @@
+    <section class="sec" id="windows">
+      <h2>Windows</h2><div class="rule"></div>
+
+      <div class="item">
+        <h3>Window</h3>
+        <div class="demo">
+          <aqua-window id="win" label="Finder" status="8 items, 1.2 GB available" style="width:225px">
+            Welcome to Aqua UI.
+          </aqua-window>
+          <aqua-window label="Unfocused" inactive style="width:185px">
+            Not the front window.
+          </aqua-window>
+          <aqua-window id="tbw" label="Macintosh HD" toolbar style="width:325px">
+            <aqua-toolbar>
+              <aqua-toolbar-item value="computer" label="Computer" src="icons/computer.png"></aqua-toolbar-item>
+              <aqua-toolbar-item value="home" label="Home" src="icons/home.png"></aqua-toolbar-item>
+              <aqua-toolbar-item divider></aqua-toolbar-item>
+              <aqua-toolbar-item value="favs" label="Favorites" src="icons/favorites.png"></aqua-toolbar-item>
+            </aqua-toolbar>
+            <div style="height:50px">Click the oval in the title bar.</div>
+          </aqua-window>
+        </div>
+        <doc-snippet>
+<pre data-lang="wc">&lt;aqua-window label="Finder" status="8 items"&gt;…&lt;/aqua-window&gt;
+&lt;aqua-window label="Macintosh HD" toolbar&gt;
+  &lt;aqua-toolbar&gt;&lt;aqua-toolbar-item label="Home" src="…"&gt;&lt;/aqua-toolbar-item&gt;&lt;/aqua-toolbar&gt;
+&lt;/aqua-window&gt;</pre>
+<pre data-lang="tsx">import { AquaWindow, AquaToolbar, AquaToolbarItem } from "@aqua-ui/react";
+
+&lt;AquaWindow label="Macintosh HD" toolbar status="8 items"&gt;
+  &lt;AquaToolbar onCommand={(e) =&gt; go(e.detail.value)}&gt;
+    &lt;AquaToolbarItem label="Home" src="icons/home.png" /&gt;
+  &lt;/AquaToolbar&gt;
+  Window content.
+&lt;/AquaWindow&gt;</pre>
+</doc-snippet>
+        <div class="tree-view props"><details><summary>Props &amp; Events</summary><table class="api">
+          <tr><td>label</td><td>the title-bar text (<code>label</code>, never <code>title</code>: that is the tooltip attribute)</td></tr>
+          <tr><td>status</td><td>adds the status bar with this text</td></tr>
+          <tr><td>metal</td><td>the brushed surface from Surfaces, unbroken under the title bar</td></tr>
+          <tr><td>sheet</td><td>the darker sheet fill</td></tr>
+          <tr><td>inactive</td><td>the unfocused state: silver gems, chrome sits back</td></tr>
+          <tr><td>toolbar</td><td>puts the oval in the title bar; <code>toolbar="hidden"</code> starts with the strip away. <code>toggleToolbar(show?)</code> from script</td></tr>
+          <tr><td>no-controls</td><td>no traffic lights</td></tr>
+          <tr><td>traffic lights</td><td>purely aesthetic; hover and press states come from the artwork</td></tr>
+          <tr><td>toolbartoggle</td><td><code>detail.shown</code>; the oval is window chrome, which is why it stays when the strip slides away</td></tr>
+          <tr><th colspan="2">aqua-toolbar · aqua-toolbar-item</th></tr>
+          <tr><td>small</td><td>the icon-beside-label form</td></tr>
+          <tr><td>items</td><td><code>label</code>, <code>src</code>, <code>value</code>, <code>disabled</code>; <code>divider</code> draws the dotted group rule, <code>spacer</code> pushes what follows right</td></tr>
+          <tr><td>command</td><td><code>detail.value</code> of the pressed item</td></tr>
+        </table></details></div>
+      </div>
+
+      <div class="item">
+        <h3>Dock</h3>
+        <div class="demo">
+          <aqua-dock>
+            <aqua-dock-item label="Finder" src="icons/Finder.png" running></aqua-dock-item>
+            <aqua-dock-item label="Mail" src="icons/Mail.png"></aqua-dock-item>
+            <aqua-dock-item divider></aqua-dock-item>
+            <aqua-dock-item label="Trash" src="icons/TrashEmpty.png"></aqua-dock-item>
+          </aqua-dock>
+        </div>
+        <doc-snippet>
+<pre data-lang="wc">&lt;aqua-dock&gt;
+  &lt;aqua-dock-item label="Finder" src="icons/Finder.png" running&gt;&lt;/aqua-dock-item&gt;
+  &lt;aqua-dock-item divider&gt;&lt;/aqua-dock-item&gt;
+  &lt;aqua-dock-item label="Trash" src="icons/TrashEmpty.png"&gt;&lt;/aqua-dock-item&gt;
+&lt;/aqua-dock&gt;</pre>
+<pre data-lang="tsx">import { AquaDock, AquaDockItem } from "@aqua-ui/react";
+
+&lt;AquaDock onLaunch={(e) =&gt; open(e.detail.value)}&gt;
+  &lt;AquaDockItem label="Finder" src="icons/Finder.png" running /&gt;
+  &lt;AquaDockItem divider /&gt;
+  &lt;AquaDockItem label="Trash" src="icons/TrashEmpty.png" /&gt;
+&lt;/AquaDock&gt;</pre>
+</doc-snippet>
+        <div class="tree-view props"><details><summary>Props &amp; Events</summary><table class="api">
+          <tr><td>aqua-dock-item</td><td><code>label</code>, <code>src</code>, <code>running</code> (the triangle), <code>divider</code>, <code>trash</code></td></tr>
+          <tr><td>launch</td><td><code>detail.value</code> of the clicked item</td></tr>
+        </table></details></div>
+      </div>
+
+      <div class="item">
+        <h3>Dialogs &amp; Sheets</h3>
+        <div class="demo">
+          <aqua-button id="doalert" default>Show an alert</aqua-button>
+        </div>
+        <doc-snippet>
+<pre data-lang="wc">const choice = await AquaComponents.alert({
+  message: "Empty the Trash?",
+  buttons: [{ id: "ok", label: "OK", default: true },
+            { id: "cancel", label: "Cancel", cancel: true }],
+});</pre>
+<pre data-lang="tsx">import { alert, sheet } from "@aqua-ui/react";
+
+const choice = await alert({ message: "Empty the Trash?" });
+await sheet(winEl, { message: "Save changes?" });</pre>
+</doc-snippet>
+        <div class="tree-view props"><details><summary>Props &amp; Events</summary><table class="api">
+          <tr><td>alert(spec)</td><td>app-modal; resolves to the pressed button&rsquo;s id. Buttons take <code>id</code>, <code>label</code>, <code>default</code>, <code>cancel</code></td></tr>
+          <tr><td>sheet(win, spec)</td><td>modal to one window, slides from its title bar</td></tr>
+        </table></details></div>
+      </div>
+    </section>

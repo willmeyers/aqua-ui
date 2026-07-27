@@ -1,0 +1,20 @@
+    <section class="sec" id="progress">
+      <h2>Progress</h2><div class="rule"></div>
+      <div class="item">
+        <h3>Progress</h3>
+        <div class="demo col" style="max-width:320px">
+          <aqua-progress value="55"></aqua-progress>
+          <aqua-progress value="100" done></aqua-progress>
+          <aqua-progress></aqua-progress>
+          <div class="progress-indicator" style="width:100%"><span class="progress-indicator-bar" style="width:40%"></span></div>
+        </div>
+        <doc-snippet>
+<pre data-lang="wc">&lt;aqua-progress value="55"&gt;&lt;/aqua-progress&gt;
+&lt;aqua-progress&gt;&lt;/aqua-progress&gt;   &lt;!-- no value = barber pole --&gt;</pre>
+<pre data-lang="tsx">import { AquaProgress } from "@aqua-ui/react";
+
+&lt;AquaProgress value={done} max={100} /&gt;
+&lt;AquaProgress /&gt;   {/* no value = barber pole */}</pre>
+</doc-snippet>
+      </div>
+    </section>

@@ -1,0 +1,33 @@
+{
+  "name": "aqua-ui",
+  "private": true,
+  "description": "Aqua UI \u2014 the 2001 Aqua desktop rebuilt in CSS, with web-component and React layers",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "test": "npm test --workspaces --if-present",
+    "test:site": "node test/site.mjs",
+    "website": "python3 scripts/serve.py 8777",
+    "site": "python3 scripts/gen_site.py",
+    "icons": "python3 scripts/gen_icons_html.py",
+    "clean": "rm -rf packages/web-components/dist packages/react/dist"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "happy-dom": "^20.11.1",
+    "playwright": "^1.62.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "typescript": "^7.0.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/willmeyers/aqua-ui"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

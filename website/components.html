@@ -1,0 +1,781 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aqua UI for the web</title>
+<link rel="icon" href="assets/logo-32.png">
+<link rel="stylesheet" href="aqua.css?v=8">
+<link rel="stylesheet" href="docs.css?v=3">
+<style>
+  .sec { margin: 0 0 46px; scroll-margin-top: 16px; }
+  .sec > h2 { margin: 0 0 3px; font-size: 12px; font-weight: 700; color: #6a7788; }
+  .sec > .rule { height: 1px; background: #dcdcdc; margin: 0 0 18px; }
+
+  .item { margin: 0 0 30px; }
+  .item h3 { margin: 0 0 2px; font-size: 15px; }
+  .item p.lede { margin: 0 0 10px; max-width: 64ch; opacity: .78; }
+
+  .demo { background: #fff; border: 1px solid #e2e2e2; border-radius: 6px;
+          padding: 20px; display: flex; gap: 22px;
+          align-items: flex-start; flex-wrap: wrap; }
+  .demo-window { margin: 2px 0 6px; }
+  .demo-window .window-body > .demo { background: none; border: 0;
+          border-radius: 0; padding: 8px 4px; }
+  .demo.col { flex-direction: column; }
+  .demo .cap { font-size: 11px; color: #8a8a8a; margin-bottom: 6px; }
+  .demo .stack > * + * { margin-top: 10px; }
+  #demoform .field-row-stacked input,
+  #demoform .select-wrapper, #demoform .select-wrapper select { width: 100%; }
+  #demoform aqua-slider input[type="range"] { width: 100%; }
+
+  .item pre { margin: 8px 0 0; padding: 12px 14px; border-radius: 4px;
+              overflow-x: auto; background: #ffffff; color: #000;
+              border: 1px solid #d2d2d7;
+              font-family: Monaco, "Courier New", monospace;
+              font-size: 11px; line-height: 1.6; }
+  .api { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 12px; }
+  .api th { text-align: left; padding: 10px 0 3px; font-size: 10.5px; color: #6e6e73; }
+  .api td { padding: 3px 12px 3px 0; vertical-align: top; border-top: 1px solid #ededed; }
+  .api tr:first-child td { border-top: 0; }
+  .api td:first-child { white-space: nowrap; font-family: ui-monospace, monospace; color: #24406e; }
+
+  .swatches { display: flex; flex-wrap: wrap; gap: 10px; }
+  .sw { width: 96px; font-size: 10.5px; line-height: 1.35; }
+  .sw i { display: block; height: 46px; border-radius: 4px; border: 1px solid rgba(0,0,0,.14); }
+  .sw b { display: block; font-weight: 600; margin-top: 4px; }
+  .sw span { color: #8a8a8a; font-family: ui-monospace, monospace; }
+
+  .type-row { display: flex; align-items: baseline; gap: 14px; padding: 7px 0;
+              border-top: 1px solid #ededed; }
+  .type-row:first-child { border-top: 0; }
+  .type-row .meta { width: 118px; flex: 0 0 auto; font-size: 10.5px;
+                    color: #8a8a8a; font-family: ui-monospace, monospace; }
+
+  .surface { width: 180px; }
+  .surface .face { height: 88px; border-radius: 5px;
+                   border: 1px solid var(--aqua-border); overflow: hidden; }
+  .surface b { display: block; font-size: 11.5px; font-weight: 600; margin-top: 6px; }
+  .surface span { font-size: 10.5px; color: #8a8a8a; }
+
+  .metrics { font-size: 12px; border-collapse: collapse; }
+  .metrics td, .metrics th { padding: 3px 16px 3px 0; text-align: left;
+                             border-top: 1px solid #ededed; }
+  .metrics th { font-size: 10.5px;
+                color: #8a8a8a; font-weight: 600; border-top: 0; }
+  .metrics td:last-child { font-family: ui-monospace, monospace; color: #24406e; }
+</style>
+</head>
+<body>
+<div class="layout">
+  <nav class="sidebar">
+    <div class="brand"><span class="wordmark"><img src="assets/logo-64.png" alt="A">qua&nbsp;UI</span></div>
+    <div class="toc-search aqua"><input type="search" id="tocsearch" placeholder="Search" aria-label="Filter the contents"></div>
+    <ul class="toc">
+      <li class="back"><a href="index.html"><img src="icons/Dock.png" alt="">Desktop</a></li>
+      <li class="group">Foundations</li>
+      <li><a href="#typography">Typography</a></li>
+      <li><a href="#surfaces">Surfaces</a></li>
+      <li><a href="#windows">Windows</a></li>
+      <li class="group">Controls</li>
+      <li><a href="#buttons">Buttons</a></li>
+      <li><a href="#forms">Forms</a></li>
+      <li><a href="#progress">Progress</a></li>
+      <li><a href="#containers">Containers</a></li>
+      <li class="group">Reference</li>
+      <li><a href="#agents">For Agents</a></li>
+      <li><a href="#icons">Icons</a></li>
+    </ul>
+  </nav>
+
+  <main class="content aqua">
+    <header class="hero">
+      <h1 class="wordmark"><img src="assets/logo-128.png" alt="A">qua&nbsp;UI</h1>
+      <p>Aqua UI is a recreation of Mac OS X's classic Aqua UI for the web.</p>
+      <p>This project is maintained by <a href="https://willmeye.rs" target="_blank">Will Meyers</a>.
+      If you remember something about Mac OS X Cheetah and it's missing here, feel free to contribute on
+      <a href="https://github.com/willmeyers/aqua-ui" target="_blank">GitHub</a>.</p>
+      <div class="hero-actions">
+        <aqua-button default onclick="window.open('https://github.com/willmeyers/aqua-ui', '_blank')">GitHub</aqua-button>
+      </div>
+    </header>
+
+    <!-- ========================= FOUNDATIONS ========================= -->
+    <section class="sec" id="get-started">
+      <h2>Get Started</h2>
+      <div class="item">
+        <p class="lede">Install <code>@aqua-ui/web-components</code> for web
+          components or <code>@aqua-ui/react</code> for React.</p>
+        <aqua-button-group id="pm" value="npm" label="Package manager">
+          <button value="npm">npm</button>
+          <button value="yarn">yarn</button>
+          <button value="bun">bun</button>
+        </aqua-button-group>
+        <div class="install-grid">
+          <div>
+            <div class="cap">Web Components</div>
+            <pre id="pm-wc">npm install @aqua-ui/web-components</pre>
+          </div>
+          <div>
+            <div class="cap">React</div>
+            <pre id="pm-react">npm install @aqua-ui/react</pre>
+          </div>
+        </div>
+<doc-snippet>
+<pre data-lang="wc">&lt;script type="module"&gt;import "@aqua-ui/web-components";&lt;/script&gt;
+
+&lt;aqua-button default&gt;OK&lt;/aqua-button&gt;</pre>
+<pre data-lang="tsx">import { AquaWindow, AquaButton } from "@aqua-ui/react";
+
+export const App = () =&gt; (
+  &lt;AquaWindow label="Untitled"&gt;
+    &lt;AquaButton default&gt;OK&lt;/AquaButton&gt;
+  &lt;/AquaWindow&gt;
+);</pre>
+</doc-snippet>
+      </div>
+    </section>
+    <section class="sec" id="typography">
+      <h2>Typography</h2><div class="rule"></div>
+      <div class="item">
+        <div class="demo col">
+          <div style="width:100%">
+            <div class="type-row"><span class="meta">13px · 400</span>
+              <span style="font-size:13px">System: body, menus, window titles</span></div>
+            <div class="type-row"><span class="meta">13px · 700</span>
+              <span style="font-size:13px;font-weight:700">System bold: window title</span></div>
+            <div class="type-row"><span class="meta">12px · 700</span>
+              <span style="font-size:12px;font-weight:700">Legend: group box</span></div>
+            <div class="type-row"><span class="meta">11px · 400</span>
+              <span style="font-size:11px">Small: status bars, placards, segments, toolbar labels</span></div>
+          </div>
+        </div>
+        <pre>--aqua-font: "Lucida Grande", "Lucida Sans Unicode", -apple-system,
+             "Segoe UI", Tahoma, sans-serif;
+--aqua-font-size: 13px;</pre>
+        <div class="tree-view props"><details><summary>Props &amp; Events</summary><table class="api">
+          <tr><td>13px</td><td>the system size: body, menu items, title bars</td></tr>
+          <tr><td>12px</td><td>group box legends</td></tr>
+          <tr><td>11px</td><td>the small system size: status bar, placard, segmented control, toolbar labels</td></tr>
+          <tr><td>text-shadow</td><td>window titles carry <code>0 1px 0 rgba(255,255,255,.7)</code>; nothing else does</td></tr>
+        </table></details></div>
+      </div>
+    </section>
+    <section class="sec" id="surfaces">
+      <h2>Surfaces</h2><div class="rule"></div>
+      <div class="item">
+        <div class="demo">
+          <div class="surface"><div class="face" style="background:#fff"></div>
+            <b>White</b></div>
+          <div class="surface"><div class="face" style="background-image:repeating-linear-gradient(to bottom,var(--aqua-pin-menu))"></div>
+            <b>Light pinstripe</b></div>
+          <div class="surface"><div class="face pinstripe"></div>
+            <b>Pinstripe</b></div>
+          <div class="surface"><div class="face" style="background-image:repeating-linear-gradient(to bottom,var(--aqua-pin-sheet))"></div>
+            <b>Dark pinstripe</b></div>
+          <div class="surface"><div class="face metal" style="border-radius:5px"></div>
+            <b>Brushed metal</b></div>
+        </div>
+        <pre>&lt;div class="window"&gt;…&lt;/div&gt;           &lt;!-- dialog pinstripe body --&gt;
+&lt;div class="window metal"&gt;…&lt;/div&gt;     &lt;!-- brushed metal --&gt;
+&lt;div class="window sheet"&gt;…&lt;/div&gt;     &lt;!-- sheet fill --&gt;
+&lt;div class="pinstripe"&gt;…&lt;/div&gt;        &lt;!-- the tile on its own --&gt;
+&lt;fieldset class="metal"&gt;…&lt;/fieldset&gt;  &lt;!-- metal on any container --&gt;</pre>
+        <div class="tree-view props"><details><summary>Props &amp; Events</summary><table class="api">
+          <tr><td>.metal</td><td>skins any container; on a <code>.window</code> it runs unbroken under the title bar, as a real metal window did</td></tr>
+          <tr><td>.metal.inset</td><td>the sheet lit from the other side, a well</td></tr>
+        </table></details></div>
+      </div>
+    </section>
+    <section class="sec" id="windows">
+      <h2>Windows</h2><div class="rule"></div>
+
+      <div class="item">
+        <h3>Window</h3>
+        <div class="demo">
+          <aqua-window id="win" label="Finder" status="8 items, 1.2 GB available" style="width:225px">
+            Welcome to Aqua UI.
+          </aqua-window>
+          <aqua-window label="Unfocused" inactive style="width:185px">
+            Not the front window.
+          </aqua-window>
+          <aqua-window id="tbw" label="Macintosh HD" toolbar style="width:325px">
+            <aqua-toolbar>
+              <aqua-toolbar-item value="computer" label="Computer" src="icons/computer.png"></aqua-toolbar-item>
+              <aqua-toolbar-item value="home" label="Home" src="icons/home.png"></aqua-toolbar-item>
+              <aqua-toolbar-item divider></aqua-toolbar-item>
+              <aqua-toolbar-item value="favs" label="Favorites" src="icons/favorites.png"></aqua-toolbar-item>
+            </aqua-toolbar>
+            <div style="height:50px">Click the oval in the title bar.</div>
+          </aqua-window>
+        </div>
+        <doc-snippet>
+<pre data-lang="wc">&lt;aqua-window label="Finder" status="8 items"&gt;…&lt;/aqua-window&gt;
+&lt;aqua-window label="Macintosh HD" toolbar&gt;
+  &lt;aqua-toolbar&gt;&lt;aqua-toolbar-item label="Home" src="…"&gt;&lt;/aqua-toolbar-item&gt;&lt;/aqua-toolbar&gt;
+&lt;/aqua-window&gt;</pre>
+<pre data-lang="tsx">import { AquaWindow, AquaToolbar, AquaToolbarItem } from "@aqua-ui/react";
+
+&lt;AquaWindow label="Macintosh HD" toolbar status="8 items"&gt;
+  &lt;AquaToolbar onCommand={(e) =&gt; go(e.detail.value)}&gt;
+    &lt;AquaToolbarItem label="Home" src="icons/home.png" /&gt;
+  &lt;/AquaToolbar&gt;
+  Window content.
+&lt;/AquaWindow&gt;</pre>
+</doc-snippet>
+        <div class="tree-view props"><details><summary>Props &amp; Events</summary><table class="api">
+          <tr><td>label</td><td>the title-bar text (<code>label</code>, never <code>title</code>: that is the tooltip attribute)</td></tr>
+          <tr><td>status</td><td>adds the status bar with this text</td></tr>
+          <tr><td>metal</td><td>the brushed surface from Surfaces, unbroken under the title bar</td></tr>
+          <tr><td>sheet</td><td>the darker sheet fill</td></tr>
+          <tr><td>inactive</td><td>the unfocused state: silver gems, chrome sits back</td></tr>
+          <tr><td>toolbar</td><td>puts the oval in the title bar; <code>toolbar="hidden"</code> starts with the strip away. <code>toggleToolbar(show?)</code> from script</td></tr>
+          <tr><td>no-controls</td><td>no traffic lights</td></tr>
+          <tr><td>traffic lights</td><td>purely aesthetic; hover and press states come from the artwork</td></tr>
+          <tr><td>toolbartoggle</td><td><code>detail.shown</code>; the oval is window chrome, which is why it stays when the strip slides away</td></tr>
+          <tr><th colspan="2">aqua-toolbar · aqua-toolbar-item</th></tr>
+          <tr><td>small</td><td>the icon-beside-label form</td></tr>
+          <tr><td>items</td><td><code>label</code>, <code>src</code>, <code>value</code>, <code>disabled</code>; <code>divider</code> draws the dotted group rule, <code>spacer</code> pushes what follows right</td></tr>
+          <tr><td>command</td><td><code>detail.value</code> of the pressed item</td></tr>
+        </table></details></div>
+      </div>
+
+      <div class="item">
+        <h3>Dock</h3>
+        <div class="demo">
+          <aqua-dock>
+            <aqua-dock-item label="Finder" src="icons/Finder.png" running></aqua-dock-item>
+            <aqua-dock-item label="Mail" src="icons/Mail.png"></aqua-dock-item>
+            <aqua-dock-item divider></aqua-dock-item>
+            <aqua-dock-item label="Trash" src="icons/TrashEmpty.png"></aqua-dock-item>
+          </aqua-dock>
+        </div>
+        <doc-snippet>
+<pre data-lang="wc">&lt;aqua-dock&gt;
+  &lt;aqua-dock-item label="Finder" src="icons/Finder.png" running&gt;&lt;/aqua-dock-item&gt;
+  &lt;aqua-dock-item divider&gt;&lt;/aqua-dock-item&gt;
+  &lt;aqua-dock-item label="Trash" src="icons/TrashEmpty.png"&gt;&lt;/aqua-dock-item&gt;
+&lt;/aqua-dock&gt;</pre>
+<pre data-lang="tsx">import { AquaDock, AquaDockItem } from "@aqua-ui/react";
+
+&lt;AquaDock onLaunch={(e) =&gt; open(e.detail.value)}&gt;
+  &lt;AquaDockItem label="Finder" src="icons/Finder.png" running /&gt;
+  &lt;AquaDockItem divider /&gt;
+  &lt;AquaDockItem label="Trash" src="icons/TrashEmpty.png" /&gt;
+&lt;/AquaDock&gt;</pre>
+</doc-snippet>
+        <div class="tree-view props"><details><summary>Props &amp; Events</summary><table class="api">
+          <tr><td>aqua-dock-item</td><td><code>label</code>, <code>src</code>, <code>running</code> (the triangle), <code>divider</code>, <code>trash</code></td></tr>
+          <tr><td>launch</td><td><code>detail.value</code> of the clicked item</td></tr>
+        </table></details></div>
+      </div>
+
+      <div class="item">
+        <h3>Dialogs &amp; Sheets</h3>
+        <div class="demo">
+          <aqua-button id="doalert" default>Show an alert</aqua-button>
+        </div>
+        <doc-snippet>
+<pre data-lang="wc">const choice = await AquaComponents.alert({
+  message: "Empty the Trash?",
+  buttons: [{ id: "ok", label: "OK", default: true },
+            { id: "cancel", label: "Cancel", cancel: true }],
+});</pre>
+<pre data-lang="tsx">import { alert, sheet } from "@aqua-ui/react";
+
+const choice = await alert({ message: "Empty the Trash?" });
+await sheet(winEl, { message: "Save changes?" });</pre>
+</doc-snippet>
+        <div class="tree-view props"><details><summary>Props &amp; Events</summary><table class="api">
+          <tr><td>alert(spec)</td><td>app-modal; resolves to the pressed button&rsquo;s id. Buttons take <code>id</code>, <code>label</code>, <code>default</code>, <code>cancel</code></td></tr>
+          <tr><td>sheet(win, spec)</td><td>modal to one window, slides from its title bar</td></tr>
+        </table></details></div>
+      </div>
+    </section>
+    <section class="sec" id="buttons">
+      <h2>Buttons</h2><div class="rule"></div>
+
+      <div class="item">
+        <h3>Push Button</h3>
+        <div class="demo">
+          <aqua-button>Cancel</aqua-button>
+          <aqua-button default>OK</aqua-button>
+          <aqua-button default pulsing>Yes</aqua-button>
+          <aqua-button disabled>Disabled</aqua-button>
+          <aqua-button bevel>Choose…</aqua-button>
+          <aqua-button bevel disabled>Disabled</aqua-button>
+          <button class="round-button" aria-label="Back">&#9664;</button>
+          <button class="round-button" aria-label="Forward">&#9654;</button>
+        </div>
+        <doc-snippet>
+<pre data-lang="wc">&lt;aqua-button&gt;Cancel&lt;/aqua-button&gt;
+&lt;aqua-button default&gt;OK&lt;/aqua-button&gt;
+&lt;aqua-button default pulsing&gt;Yes&lt;/aqua-button&gt;
+&lt;aqua-button disabled&gt;Disabled&lt;/aqua-button&gt;
+&lt;aqua-button bevel&gt;Choose…&lt;/aqua-button&gt;</pre>
+<pre data-lang="tsx">import { AquaButton } from "@aqua-ui/react";
+
+&lt;AquaButton onClick={cancel}&gt;Cancel&lt;/AquaButton&gt;
+&lt;AquaButton default onClick={save}&gt;OK&lt;/AquaButton&gt;
+&lt;AquaButton default pulsing&gt;Yes&lt;/AquaButton&gt;
+&lt;AquaButton disabled&gt;Disabled&lt;/AquaButton&gt;
+&lt;AquaButton bevel&gt;Choose…&lt;/AquaButton&gt;</pre>
+</doc-snippet>
+        <div class="tree-view props"><details><summary>Props &amp; Events</summary><table class="api">
+          <tr><td>default</td><td>the blue gel: the throb's mid-phase, which is the color every resting screenshot shows</td></tr>
+          <tr><td>pulsing</td><td>opt in to the dialog throb</td></tr>
+          <tr><td>bevel</td><td>the square-shouldered bevel face instead of the gel capsule</td></tr>
+          <tr><td>class="round-button"</td><td>the round gel button; content is centered on the sphere</td></tr>
+          <tr><td>square</td><td>tightens the bevel&rsquo;s corners</td></tr>
+          <tr><td>disabled</td><td>disables the native button inside</td></tr>
+          <tr><td>type</td><td><code>button</code> (default) · <code>submit</code> · <code>reset</code>, forwarded to the native button</td></tr>
+          <tr><td>label</td><td>set the text as an attribute instead of children</td></tr>
+          <tr><td>click</td><td>the native event, bubbling from the inner button</td></tr>
+          <tr><td>height</td><td>20px, native; widths are free</td></tr>
+        </table></details></div>
+      </div>
+
+      <div class="item">
+        <h3>Button Group</h3>
+        <div class="demo">
+          <aqua-button-group id="bg1" value="icon" label="View">
+            <button value="icon" icon="icon" label="Icon view"></button>
+            <button value="list" icon="list" label="List view"></button>
+            <button value="column" icon="column" label="Column view"></button>
+          </aqua-button-group>
+          <aqua-button-group id="bg2" value="all">
+            <button value="all">All</button>
+            <button value="mine">Mine</button>
+            <button value="shared">Shared</button>
+          </aqua-button-group>
+          <aqua-button-group id="bg3" multiple value="b">
+            <button value="b">Bold</button>
+            <button value="i">Italic</button>
+          </aqua-button-group>
+          <aqua-button-group id="bg4" momentary>
+            <button value="back">Back</button>
+            <button value="forward">Forward</button>
+          </aqua-button-group>
+          <aqua-button-group value="icon" disabled>
+            <button value="icon" icon="icon"></button>
+            <button value="list" icon="list"></button>
+          </aqua-button-group>
+        </div>
+        <doc-snippet>
+<pre data-lang="wc">&lt;aqua-button-group value="icon" label="View"&gt;
+  &lt;button value="icon"   icon="icon"   label="Icon view"&gt;&lt;/button&gt;
+  &lt;button value="list"   icon="list"   label="List view"&gt;&lt;/button&gt;
+&lt;/aqua-button-group&gt;</pre>
+<pre data-lang="tsx">import { AquaButtonGroup } from "@aqua-ui/react";
+
+&lt;AquaButtonGroup value={view} label="View"
+                 onChange={(e) =&gt; setView(e.detail.value as string)}&gt;
+  &lt;button value="icon" icon="icon" label="Icon view"&gt;&lt;/button&gt;
+  &lt;button value="list" icon="list" label="List view"&gt;&lt;/button&gt;
+&lt;/AquaButtonGroup&gt;</pre>
+</doc-snippet>
+        <div class="tree-view props"><details><summary>Props &amp; Events</summary><table class="api">
+          <tr><td>value</td><td>the chosen segment; a space-separated list when <code>multiple</code> (the <code>values</code> property reads it as an array)</td></tr>
+          <tr><td>label</td><td>accessible name for the group</td></tr>
+          <tr><td>multiple</td><td>toggle group instead of single-select</td></tr>
+          <tr><td>momentary</td><td>plain buttons, no sticky state</td></tr>
+          <tr><td>icons</td><td>force the compact icon sizing (automatic when every segment is an icon)</td></tr>
+          <tr><td>disabled</td><td>disables every segment</td></tr>
+          <tr><td>inactive</td><td>desaturates the selected segment, as an unfocused window did</td></tr>
+          <tr><th colspan="2">Segment children</th></tr>
+          <tr><td>value · label · disabled</td><td>per-segment; <code>label</code> becomes the accessible name for icon segments</td></tr>
+          <tr><td>icon · src</td><td>one of the three original view glyphs, or your own image</td></tr>
+          <tr><th colspan="2">Events</th></tr>
+          <tr><td>change</td><td><code>detail.value</code>: the selection (array when <code>multiple</code>)</td></tr>
+          <tr><td>command</td><td><code>detail.value</code>: the pressed segment, in <code>momentary</code> mode</td></tr>
+          <tr><td>keyboard</td><td>one tab stop; arrows, Home and End move the selection</td></tr>
+        </table></details></div>
+      </div>
+
+    </section>
+    <section class="sec" id="forms">
+      <h2>Forms</h2><div class="rule"></div>
+      <div class="item">
+        <div class="demo">
+          <form id="demoform" style="display:grid;grid-template-columns:repeat(auto-fill,210px);gap:24px 44px;align-items:start">
+            <div class="stack">
+              <div class="cap">Checkbox &amp; Radio</div>
+              <aqua-checkbox name="disks" checked>Show disks</aqua-checkbox>
+              <aqua-checkbox indeterminate>Mixed state</aqua-checkbox>
+              <aqua-checkbox disabled>Disabled</aqua-checkbox>
+              <aqua-radio name="size" value="small" checked>Small</aqua-radio>
+              <aqua-radio name="size" value="large">Large</aqua-radio>
+            </div>
+            <div class="stack">
+              <div class="cap">Text &amp; Popup</div>
+              <aqua-field label="Name" name="name" value="Untitled"></aqua-field>
+              <aqua-field label="Search" type="search" placeholder="Search"></aqua-field>
+              <div class="field-row-stacked">
+                <label for="units-i">Units</label>
+                <aqua-select id="units" name="units">
+                  <option value="k">Thousands</option>
+                  <option value="m">Millions</option>
+                </aqua-select>
+              </div>
+            </div>
+            <div class="stack">
+              <div class="cap">Slider &amp; Stepper</div>
+              <aqua-slider name="vol" min="0" max="100" value="60" round style="width:100%"></aqua-slider>
+              <aqua-slider min="0" max="100" value="40" ticks="7" style="width:100%"></aqua-slider>
+              <aqua-stepper name="qty" value="10" min="0" max="20" field></aqua-stepper>
+            </div>
+          </form>
+        </div>
+        <doc-snippet>
+<pre data-lang="wc">&lt;aqua-checkbox name="disks" checked&gt;Show disks&lt;/aqua-checkbox&gt;
+&lt;aqua-radio name="size" value="small" checked&gt;Small&lt;/aqua-radio&gt;
+&lt;aqua-field label="Name" name="name" value="Untitled"&gt;&lt;/aqua-field&gt;
+&lt;aqua-select label="Units" name="units"&gt;&lt;option&gt;…&lt;/option&gt;&lt;/aqua-select&gt;
+&lt;aqua-slider name="vol" min="0" max="100" value="60" round&gt;&lt;/aqua-slider&gt;
+&lt;aqua-stepper name="qty" value="10" min="0" max="20" field&gt;&lt;/aqua-stepper&gt;</pre>
+<pre data-lang="tsx">import { AquaCheckbox, AquaField, AquaSlider } from "@aqua-ui/react";
+
+&lt;AquaCheckbox name="disks" checked
+              onChange={(e) =&gt; setDisks(e.detail.value != null)}&gt;
+  Show disks
+&lt;/AquaCheckbox&gt;
+&lt;AquaField label="Name" value={name}
+           onInput={(e) =&gt; setName(e.detail.value)} /&gt;
+&lt;AquaSlider name="vol" min={0} max={100} value={vol} round
+            onInput={(e) =&gt; setVol(e.detail.value)} /&gt;</pre>
+</doc-snippet>
+        <div class="tree-view props"><details><summary>Props &amp; Events</summary><table class="api">
+          <tr><td>all of them</td><td>form-associated: they submit, reset and validate like native inputs, and fire <code>change</code> / <code>input</code> with <code>detail.value</code></td></tr>
+          <tr><th colspan="2">aqua-checkbox · aqua-radio</th></tr>
+          <tr><td>checked · indeterminate · disabled</td><td>state; radios with the same <code>name</code> uncheck each other</td></tr>
+          <tr><td>name · value</td><td>what submits (<code>value</code> defaults to <code>on</code>); children are the label</td></tr>
+          <tr><th colspan="2">aqua-field</th></tr>
+          <tr><td>label</td><td>stacks a label above the input</td></tr>
+          <tr><td>type</td><td><code>text</code> (default), <code>search</code>, <code>textarea</code> (with <code>rows</code>), or any input type</td></tr>
+          <tr><td>value · placeholder · readonly · disabled · name</td><td>as on a native input</td></tr>
+          <tr><th colspan="2">aqua-select</th></tr>
+          <tr><td>label · value · disabled · name</td><td>children are <code>&lt;option&gt;</code>s; the <code>options</code> property replaces them from script</td></tr>
+          <tr><td>popup</td><td>pops <em>over</em> its button with the current choice under the pointer, which no native <code>&lt;select&gt;</code> reproduces</td></tr>
+          <tr><th colspan="2">aqua-slider</th></tr>
+          <tr><td>min · max · step · value</td><td>numeric range, as on a native range input</td></tr>
+          <tr><td>ticks</td><td>tick count; ticks give the pentagon thumb</td></tr>
+          <tr><td>round</td><td>the glossy round thumb</td></tr>
+          <tr><th colspan="2">aqua-stepper</th></tr>
+          <tr><td>value · min · max · step</td><td>the number it steps</td></tr>
+          <tr><td>field</td><td>shows the editable text box beside the arrows</td></tr>
+          <tr><td>wrap</td><td>wraps at the ends instead of clamping</td></tr>
+          <tr><td>press and hold</td><td>repeats, accelerating once, as the real one did</td></tr>
+        </table></details></div>
+      </div>
+    </section>
+    <section class="sec" id="progress">
+      <h2>Progress</h2><div class="rule"></div>
+      <div class="item">
+        <h3>Progress</h3>
+        <div class="demo col" style="max-width:320px">
+          <aqua-progress value="55"></aqua-progress>
+          <aqua-progress value="100" done></aqua-progress>
+          <aqua-progress></aqua-progress>
+          <div class="progress-indicator" style="width:100%"><span class="progress-indicator-bar" style="width:40%"></span></div>
+        </div>
+        <doc-snippet>
+<pre data-lang="wc">&lt;aqua-progress value="55"&gt;&lt;/aqua-progress&gt;
+&lt;aqua-progress&gt;&lt;/aqua-progress&gt;   &lt;!-- no value = barber pole --&gt;</pre>
+<pre data-lang="tsx">import { AquaProgress } from "@aqua-ui/react";
+
+&lt;AquaProgress value={done} max={100} /&gt;
+&lt;AquaProgress /&gt;   {/* no value = barber pole */}</pre>
+</doc-snippet>
+      </div>
+    </section>
+    <section class="sec" id="containers">
+      <h2>Containers</h2><div class="rule"></div>
+      <div class="item">
+        <div class="demo" style="display:grid;grid-template-columns:repeat(auto-fill,250px);gap:26px 44px;align-items:start">
+          <div>
+            <div class="cap">Tabs</div>
+            <aqua-tabs id="tabs" style="width:250px">
+              <aqua-tab label="Display" selected><b>Display</b><br>Resolutions and colours.
+                <aqua-checkbox checked>Show in menu bar</aqua-checkbox></aqua-tab>
+              <aqua-tab label="Color">Calibrate your monitor.</aqua-tab>
+              <aqua-tab label="Geometry" disabled>Unavailable.</aqua-tab>
+            </aqua-tabs>
+          </div>
+          <div>
+            <div class="cap">Group Box</div>
+            <aqua-group-box label="Disks" style="width:250px">
+              <aqua-checkbox checked>On the Desktop</aqua-checkbox>
+              <aqua-checkbox>Connected servers</aqua-checkbox>
+            </aqua-group-box>
+          </div>
+          <div>
+            <div class="cap">Tree</div>
+            <aqua-tree id="tree" style="width:250px">
+              <aqua-tree-item label="Documents" open>
+                <aqua-tree-item label="Letter.rtf"></aqua-tree-item>
+                <aqua-tree-item label="Notes.txt"></aqua-tree-item>
+              </aqua-tree-item>
+              <aqua-tree-item label="Sites"></aqua-tree-item>
+            </aqua-tree>
+          </div>
+          <div>
+            <div class="cap">Table</div>
+            <aqua-table id="table" sortable selectable style="width:250px">
+              <table style="width:100%">
+                <thead><tr><th>Name</th><th>Size</th></tr></thead>
+                <tbody>
+                  <tr><td>Desktop</td><td>4</td></tr>
+                  <tr><td>Library</td><td>1200</td></tr>
+                  <tr><td>Movies</td><td>8</td></tr>
+                </tbody>
+              </table>
+            </aqua-table>
+          </div>
+          <div>
+            <div class="cap">Scroll</div>
+            <aqua-scroll style="display:block;width:250px;height:150px;overflow:auto;background:#fff;border:1px solid #9a9a9a;border-radius:4px">
+              <div style="height:600px;width:400px;padding:10px 12px;background:repeating-linear-gradient(to bottom,#fff 0 24px,#f2f5fa 24px 48px)">
+                Scroll me. The arrows sit at both ends, one per end,
+                exactly as the original drew them.
+              </div>
+            </aqua-scroll>
+          </div>
+        </div>
+        <doc-snippet>
+<pre data-lang="wc">&lt;aqua-tabs&gt;&lt;aqua-tab label="Display" selected&gt;…&lt;/aqua-tab&gt;&lt;/aqua-tabs&gt;
+&lt;aqua-group-box label="Disks"&gt;…&lt;/aqua-group-box&gt;
+&lt;aqua-tree&gt;&lt;aqua-tree-item label="Documents" open&gt;…&lt;/aqua-tree-item&gt;&lt;/aqua-tree&gt;
+&lt;aqua-table sortable selectable&gt;&lt;table&gt;…&lt;/table&gt;&lt;/aqua-table&gt;
+&lt;aqua-scroll arrows="together"&gt;…&lt;/aqua-scroll&gt;</pre>
+<pre data-lang="tsx">import { AquaTabs, AquaTab, AquaTable } from "@aqua-ui/react";
+
+&lt;AquaTabs selected={tab} onChange={(e) =&gt; setTab(e.detail.value)}&gt;
+  &lt;AquaTab label="Display"&gt;…&lt;/AquaTab&gt;
+  &lt;AquaTab label="Color"&gt;…&lt;/AquaTab&gt;
+&lt;/AquaTabs&gt;
+&lt;AquaTable sortable selectable onSelect={(e) =&gt; pick(e.detail.rows)}&gt;
+  &lt;table&gt;…&lt;/table&gt;
+&lt;/AquaTable&gt;</pre>
+</doc-snippet>
+        <div class="tree-view props"><details><summary>Props &amp; Events</summary><table class="api">
+          <tr><th colspan="2">aqua-tabs · aqua-tab</th></tr>
+          <tr><td>selected</td><td>the active tab&rsquo;s value; <code>change</code> fires with <code>detail.value</code></td></tr>
+          <tr><td>aqua-tab</td><td><code>label</code>, <code>value</code>, <code>selected</code>, <code>disabled</code>; panels stay in the tree when hidden, so components inside keep their state</td></tr>
+          <tr><td>keyboard</td><td>arrows, Home and End move between tabs</td></tr>
+          <tr><th colspan="2">aqua-group-box</th></tr>
+          <tr><td>label · metal</td><td>the legend, and the brushed surface</td></tr>
+          <tr><th colspan="2">aqua-tree · aqua-tree-item</th></tr>
+          <tr><td>aqua-tree-item</td><td><code>label</code>, <code>value</code>, <code>open</code>; nest items for branches</td></tr>
+          <tr><td>select</td><td>fires on a leaf with <code>detail.value</code>; disclosure is native <code>&lt;details&gt;</code>, no JS</td></tr>
+          <tr><th colspan="2">aqua-table</th></tr>
+          <tr><td>sortable</td><td>click (or Enter on) a header to sort; fires <code>sort</code> with <code>detail.column</code> and <code>detail.direction</code></td></tr>
+          <tr><td>selectable · multiple</td><td>click rows to select (⌘/Ctrl extends); fires <code>select</code> with <code>detail.rows</code>, read back via the <code>selection</code> property</td></tr>
+          <tr><td>markup</td><td>enhances a <code>&lt;table&gt;</code> you wrote, so colspans and links survive</td></tr>
+          <tr><th colspan="2">aqua-scroll</th></tr>
+          <tr><td>arrows</td><td><code>ends</code> (the 10.0 default) · <code>together</code> · <code>none</code>. WebKit/Blink only</td></tr>
+          <tr><th colspan="2">aqua-separator</th></tr>
+          <tr><td>vertical</td><td>the rule turned on its side</td></tr>
+        </table></details></div>
+      </div>
+    </section>
+    <section class="sec" id="agents">
+      <h2>For Agents</h2><div class="rule"></div>
+      <div class="item">
+        <p class="lede"><a href="llms.txt"><code>/llms.txt</code></a></p>
+      </div>
+    </section>
+    <section class="sec" id="icons">
+      <h2>Icons</h2><div class="rule"></div>
+      <div class="item">
+        <div class="icon-grid" id="icon-grid">loading…</div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script type="module" src="../packages/web-components/dist/index.js"></script>
+<script>
+  const hlEsc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+  function hlMarkup(src) {
+    let out = "", i = 0;
+    const re = /<!--[\s\S]*?-->|<\/?[a-zA-Z][^>]*>/g;
+    let m;
+    while ((m = re.exec(src))) {
+      out += hlEsc(src.slice(i, m.index));
+      const t = m[0];
+      if (t.startsWith("<!--")) {
+        out += `<span class="tok-c">${hlEsc(t)}</span>`;
+      } else {
+        const mm = t.match(/^(<\/?)([\w-]+)([\s\S]*?)(\/?>)$/);
+        const attrs = hlEsc(mm[3]).replace(
+          /([\w-]+)(="[^"]*")?/g,
+          (a, n, v) => `<span class="tok-a">${n}</span>` +
+            (v ? `=<span class="tok-s">${v.slice(1)}</span>` : ""),
+        );
+        out += hlEsc(mm[1]) + `<span class="tok-t">${mm[2]}</span>` + attrs + hlEsc(mm[4]);
+      }
+      i = re.lastIndex;
+    }
+    return out + hlEsc(src.slice(i));
+  }
+  function hlTS(src) {
+    let out = "", i = 0;
+    const re = new RegExp(
+      "(\\/\\/[^\\n]*|\\/\\*[\\s\\S]*?\\*\\/)" +
+      "|(\"(?:[^\"\\\\]|\\\\.)*\"|'(?:[^'\\\\]|\\\\.)*'|`(?:[^`\\\\]|\\\\.)*`)" +
+      "|(<\\/?[A-Za-z][\\w.-]*)" +
+      "|\\b(import|from|export|const|let|var|new|await|async|function|return|as|null|true|false)\\b",
+      "g");
+    let m;
+    while ((m = re.exec(src))) {
+      out += hlEsc(src.slice(i, m.index));
+      if (m[1]) out += `<span class="tok-c">${hlEsc(m[1])}</span>`;
+      else if (m[2]) out += `<span class="tok-s">${hlEsc(m[2])}</span>`;
+      else if (m[3]) out += hlEsc(m[3][1] === "/" ? "</" : "<") +
+        `<span class="tok-t">${m[3].replace(/^<\/?/, "")}</span>`;
+      else out += `<span class="tok-k">${m[4]}</span>`;
+      i = re.lastIndex;
+    }
+    return out + hlEsc(src.slice(i));
+  }
+  function hlCSS(src) {
+    let out = "", i = 0;
+    const re = /(\/\*[\s\S]*?\*\/)|([-\w]+)(?=\s*:)|(#[0-9a-fA-F]{3,8}\b|"[^"]*")/g;
+    let m;
+    while ((m = re.exec(src))) {
+      out += hlEsc(src.slice(i, m.index));
+      if (m[1]) out += `<span class="tok-c">${hlEsc(m[1])}</span>`;
+      else if (m[2]) out += `<span class="tok-a">${m[2]}</span>`;
+      else out += `<span class="tok-s">${hlEsc(m[3])}</span>`;
+      i = re.lastIndex;
+    }
+    return out + hlEsc(src.slice(i));
+  }
+  function highlight(pre, kind) {
+    const src = pre.textContent;
+    pre.innerHTML = kind === "ts" ? hlTS(src) : kind === "css" ? hlCSS(src) : hlMarkup(src);
+  }
+
+  (() => {
+    const LANGS = [["wc", "Web Component"], ["tsx", "React"]];
+    const KEY = "aqua-docs-snippet-lang";
+    const all = [];
+    customElements.define("doc-snippet", class extends HTMLElement {
+      connectedCallback() {
+        if (this._built) return;
+        this._built = true;
+        this._pres = new Map([...this.querySelectorAll(":scope > pre")]
+          .map((p) => [p.dataset.lang || "wc", p]));
+        for (const [lang, p] of this._pres) {
+          highlight(p, lang === "tsx" ? "ts" : "markup");
+        }
+        this.classList.add("aqua");
+        const strip = document.createElement("div");
+        strip.className = "tabs";
+        strip.setAttribute("role", "tablist");
+        for (const [k, label] of LANGS) {
+          if (!this._pres.has(k)) continue;
+          const b = document.createElement("button");
+          b.type = "button";
+          b.setAttribute("role", "tab");
+          b.dataset.lang = k;
+          b.textContent = label;
+          b.addEventListener("click", () => {
+            localStorage.setItem(KEY, k);
+            all.forEach((s) => s._show(k));
+          });
+          strip.append(b);
+        }
+        const panel = document.createElement("div");
+        panel.className = "tab-panel";
+        panel.setAttribute("role", "tabpanel");
+        panel.append(...this._pres.values());
+        this.replaceChildren(strip, panel);
+        this._strip = strip;
+        all.push(this);
+        this._show(localStorage.getItem(KEY) || "wc");
+      }
+      _show(k) {
+        if (!this._pres.has(k)) k = "wc";
+        for (const [lang, p] of this._pres) p.style.display = lang === k ? "" : "none";
+        for (const b of this._strip.children) {
+          b.setAttribute("aria-selected", String(b.dataset.lang === k));
+        }
+      }
+    });
+  })();
+  for (const pre of document.querySelectorAll("pre:not(doc-snippet pre)")) {
+    const t = pre.textContent.trimStart();
+    if (t.startsWith("<")) highlight(pre, "markup");
+    else if (t.startsWith("--") || t.startsWith("/*")) highlight(pre, "css");
+  }
+  const PM = { npm: "npm install", yarn: "yarn add", bun: "bun add" };
+  document.getElementById("pm").addEventListener("change", (e) => {
+    const cmd = PM[e.detail.value];
+    document.getElementById("pm-wc").textContent = cmd + " @aqua-ui/web-components";
+    document.getElementById("pm-react").textContent = cmd + " @aqua-ui/react";
+  });
+  fetch("icons-fragment.html").then((r) => r.text())
+    .then((t) => { document.getElementById("icon-grid").innerHTML = t; })
+    .catch(() => { document.getElementById("icon-grid").textContent = "icons unavailable"; });
+  {
+    const pane = document.querySelector("main.content");
+    const secs = [...document.querySelectorAll("section.sec[id]")];
+    const link = (id) => document.querySelector(`.toc a[href="#${id}"]`);
+    let raf = 0;
+    const spy = () => {
+      raf = 0;
+      const top = pane.getBoundingClientRect().top + 100;
+      let cur = secs[0];
+      for (const s of secs) if (s.getBoundingClientRect().top <= top) cur = s;
+      for (const s of secs) link(s.id)?.classList.toggle("active", s === cur);
+    };
+    pane.addEventListener("scroll", () => { if (!raf) raf = requestAnimationFrame(spy); },
+                          { passive: true });
+    spy();
+  }
+  tocsearch.addEventListener("input", () => {
+    const q = tocsearch.value.trim().toLowerCase();
+    document.querySelectorAll(".toc li").forEach((li) => {
+      if (li.classList.contains("back")) return;
+      if (li.classList.contains("group")) { li.style.display = q ? "none" : ""; return; }
+      const a = li.querySelector("a");
+      if (a) li.style.display = !q || a.textContent.toLowerCase().includes(q) ? "" : "none";
+    });
+  });
+  doalert.addEventListener("click", async () => {
+    const r = await AquaComponents.alert({
+      title: "Are you sure you want to empty the Trash?",
+      text: "You cannot undo this action.",
+      buttons: [{ id: "cancel", label: "Cancel" },
+                { id: "ok", label: "Empty", default: true }],
+    });
+  });
+</script>
+<script>
+  for (const demo of document.querySelectorAll(".sec:not(#windows) .demo")) {
+    const item = demo.closest(".item");
+    const sec = demo.closest(".sec");
+    const h3 = item && item.querySelector("h3");
+    const h2 = sec && sec.querySelector("h2");
+    const win = document.createElement("div");
+    win.className = "window demo-window";
+    win.innerHTML =
+      '<div class="title-bar">' +
+        '<div class="title-bar-controls">' +
+          '<button aria-label="Close"><span>&times;</span></button>' +
+          '<button aria-label="Minimize"><span>&minus;</span></button>' +
+          '<button aria-label="Zoom"><span>+</span></button>' +
+        '</div>' +
+        '<div class="title-bar-text"></div>' +
+        '<div style="width:49px;flex:0 0 auto"></div>' +
+      '</div>' +
+      '<div class="window-body"></div>';
+    win.querySelector(".title-bar-text").textContent =
+      (h3 && h3.textContent) || (h2 && h2.textContent) || "Demo";
+    demo.parentNode.insertBefore(win, demo);
+    win.querySelector(".window-body").appendChild(demo);
+  }
+</script>
+</body>
+</html>

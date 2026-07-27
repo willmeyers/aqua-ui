@@ -1,0 +1,228 @@
+/* desktop.css — the AquaUI desktop shell (menu bar, wallpaper, window manager,
+ * launcher). The widgets themselves come from aqua.css; this only stages them
+ * as a live Mac OS X 10.0 desktop. */
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  font: 13px "Lucida Grande", "Lucida Sans Unicode", -apple-system,
+    "Segoe UI", Helvetica, sans-serif;
+  /* the desktop chrome — icons, dock, menu bar — is not selectable text */
+  user-select: none;
+}
+
+/* …but what is INSIDE a window is a document, and documents select */
+.win .win-content,
+.aqua-alert .body,
+.aqua-sheet .body {
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+.desktop {
+  position: fixed;
+  inset: 0;
+  background: #3a5a9a url("assets/aqua-blue.jpg") center / cover no-repeat;
+  overflow: hidden;
+}
+
+/* ---------- menu bar ---------- */
+
+/* the strip itself is a library component (aqua.css § 15); the desktop only
+   pins it to the top of the screen */
+.desktop > .menubar {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  z-index: 100000;
+}
+
+/* ---------- desktop icons ---------- */
+
+.desktop-icon {
+  position: absolute;
+  width: 84px;
+  text-align: center;
+  color: #fff;
+  cursor: default;
+}
+.desktop-icon img { width: 48px; height: 48px; display: block; margin: 0 auto 3px; }
+.desktop-icon span {
+  font-size: 12px;
+  padding: 1px 4px;
+  border-radius: 3px;
+  text-shadow: 0 1px 2px rgba(0,0,0,.7);
+}
+.desktop-icon.selected span { background: #4d83d2; text-shadow: none; }
+
+/* ---------- windows ---------- */
+
+.win {
+  position: absolute;
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px 8px 6px 6px;
+  border: 1px solid #7f7f7f;
+  background: #dedede;
+  box-shadow: 0 16px 40px rgba(0,0,0,.42), 0 4px 10px rgba(0,0,0,.28);
+  overflow: hidden;
+}
+.win.inactive { box-shadow: 0 10px 26px rgba(0,0,0,.30); }
+
+.win .title-bar { cursor: default; flex: 0 0 auto; }
+.win .win-content {
+  flex: 1 1 auto;
+  overflow: auto;
+  background-image: repeating-linear-gradient(to bottom,
+    #dedede 0 1px, #ebebeb 1px 2px, #dedede 2px 3px, #d7d7d7 3px 4px);
+}
+.win.plain .win-content { background: #ececec; }
+
+/* the doc content inside a component window */
+.doc { padding: 16px 18px 20px; max-width: 520px; }
+.doc h3 {
+  margin: 0 0 4px; font-size: 15px;
+  padding-bottom: 5px; border-bottom: 1px solid #cfcfcf;
+}
+.doc .desc { color: #555; font-size: 13px; margin: 8px 0 14px; }
+.doc .desc .asset { font: 12px ui-monospace, Menlo, monospace; color: #8a5a00; }
+.doc .stage {
+  display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-start;
+  padding: 18px; margin-bottom: 12px;
+  border: 1px solid #cfcfcf; border-radius: 7px;
+  background: linear-gradient(160deg,#4a6b96,#33517a);
+}
+.doc .stage.plain { background: #d7d7d7; }
+.doc .code {
+  position: relative;
+  margin: 0; border-radius: 6px;
+  background: #1e2430;
+}
+.doc .code pre { margin: 0; padding: 12px 14px; overflow-x: auto; }
+.doc .code code {
+  font: 12px/1.5 ui-monospace, Menlo, Consolas, monospace;
+  color: #e6ebf2; white-space: pre;
+}
+.doc .note {
+  font-size: 12px; color: #666;
+  border-left: 3px solid #c9c9c9; padding: 2px 0 2px 12px; margin: 12px 0 0;
+}
+
+/* the Components launcher (Finder-style) */
+.launcher .win-content { background: #fff; padding: 0; }
+
+/* the Documentation window: the library docs live in a frame */
+.docs-win .win-content { padding: 0; background: #fff; display: flex; flex-direction: column; }
+.docs-frame { border: 0; display: block; width: 100%; flex: 1 1 auto; height: min(66vh, 640px); }
+.docs-win .status-bar { flex: 0 0 auto; }
+.docs-win .status-bar .spacer { flex: 1; }
+.docs-win .status-bar a { color: #2a5db0; }
+
+/* the Cheetah picture window — Preview showing a photo, edge to edge */
+.cheetah-win .win-content { padding: 0; background: #fff; }
+.cheetah-win .win-content img { display: block; width: 100%; height: auto; }
+.cheetah-win .status-bar { border-top: 1px solid #9a9a9a; }
+.launcher-list { list-style: none; margin: 0; padding: 4px; }
+.launcher-list li {
+  display: flex; align-items: center; gap: 9px;
+  padding: 4px 10px; border-radius: 4px;
+  font-size: 13px; cursor: default;
+}
+.launcher-list li:nth-child(even) { background: #edf3fe; }
+.launcher-list li:hover { background: #4d83d2; color: #fff; }
+.launcher-list li .dot {
+  width: 15px; height: 15px; border-radius: 3px; flex: 0 0 auto;
+  background: linear-gradient(to bottom,#a0e6ff,#4d83d2);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.6);
+}
+.launcher-list li.group {
+  background: none; color: #8a8a8a; font-size: 10px; text-transform: uppercase;
+  letter-spacing: .07em; padding: 8px 10px 2px; cursor: default;
+}
+.launcher-list li.group:hover { background: none; color: #8a8a8a; }
+
+/* ---------- dock: bottom-centre ---------- */
+
+.dock-wrap {
+  position: absolute;
+  left: 50%; bottom: 6px;
+  transform: translateX(-50%);
+  z-index: 90000;
+}
+
+
+/* ---------- boot screen ---------- */
+
+/* The 10.0 startup screen: a pinstriped panel filling the display, the mark
+   over the progress bar. The bar is the library's own <progress> — no
+   special case. */
+.boot {
+  position: fixed;
+  inset: 0;
+  z-index: 200000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #3b6ea5;
+  opacity: 1;
+  transition: opacity .55s ease;
+}
+.boot.out { opacity: 0; pointer-events: none; }
+
+.boot-panel {
+  /* square, as the real startup panel was */
+  width: min(58vh, 76vw, 480px);
+  aspect-ratio: 1;
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255,255,255,.55);
+  box-shadow: 0 10px 40px rgba(0,0,0,.35);
+  background-color: #ededed;
+  /* 4px like every other Aqua tile, but lighter than a dialog's — the boot
+     panel sits between the dialog fill and plain white */
+  background-image: repeating-linear-gradient(to bottom,
+    #f4f4f4 0 1px, #e4e4e4 1px 2px, #f4f4f4 2px 3px, #e9e9e9 3px 4px);
+}
+
+.boot-mark { width: clamp(96px, 16vh, 150px); height: auto; display: block; }
+
+/* Apple set the wordmark in Apple Garamond, which is not ours to ship — a
+   serif stack is a stand-in for the shape, not a match for the face. */
+.boot-word {
+  margin-top: 16px;
+  font-family: "Apple Garamond", Garamond, Georgia, "Times New Roman", serif;
+  font-size: clamp(30px, 5vh, 46px);
+  line-height: 1;
+  letter-spacing: .01em;
+  color: #1a1a1a;
+  text-shadow: 0 1px 0 rgba(255,255,255,.9);
+}
+
+.boot-panel .boot-bar {
+  display: block;
+  width: min(62%, 300px);
+  margin-top: clamp(26px, 6vh, 54px);
+}
+.boot-panel .boot-bar progress { width: 100%; height: 14px; }
+
+/* nothing behind the boot panel should be interactive while it is up */
+.booting body { overflow: hidden; }
+
+@media (max-width: 600px) {
+  body { touch-action: manipulation; }
+  .menu-bar { overflow-x: auto; scrollbar-width: none; }
+  .menu-bar::-webkit-scrollbar { display: none; }
+  .desktop-icon { width: 64px; }
+  .desktop-icon img { width: 36px; height: 36px; }
+  .win { max-width: calc(100vw - 8px); }
+  .docs-frame { height: min(72vh, 640px); }
+  .dock-item { width: 26px; }
+  .dock-item img { width: 26px; height: 26px; }
+}

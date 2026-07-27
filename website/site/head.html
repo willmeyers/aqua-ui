@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aqua UI for the web</title>
+<link rel="icon" href="assets/logo-32.png">
+<link rel="stylesheet" href="aqua.css?v=8">
+<link rel="stylesheet" href="docs.css?v=3">
+<style>
+  .sec { margin: 0 0 46px; scroll-margin-top: 16px; }
+  .sec > h2 { margin: 0 0 3px; font-size: 12px; font-weight: 700; color: #6a7788; }
+  .sec > .rule { height: 1px; background: #dcdcdc; margin: 0 0 18px; }
+
+  .item { margin: 0 0 30px; }
+  .item h3 { margin: 0 0 2px; font-size: 15px; }
+  .item p.lede { margin: 0 0 10px; max-width: 64ch; opacity: .78; }
+
+  .demo { background: #fff; border: 1px solid #e2e2e2; border-radius: 6px;
+          padding: 20px; display: flex; gap: 22px;
+          align-items: flex-start; flex-wrap: wrap; }
+  .demo-window { margin: 2px 0 6px; }
+  .demo-window .window-body > .demo { background: none; border: 0;
+          border-radius: 0; padding: 8px 4px; }
+  .demo.col { flex-direction: column; }
+  .demo .cap { font-size: 11px; color: #8a8a8a; margin-bottom: 6px; }
+  .demo .stack > * + * { margin-top: 10px; }
+  #demoform .field-row-stacked input,
+  #demoform .select-wrapper, #demoform .select-wrapper select { width: 100%; }
+  #demoform aqua-slider input[type="range"] { width: 100%; }
+
+  .item pre { margin: 8px 0 0; padding: 12px 14px; border-radius: 4px;
+              overflow-x: auto; background: #ffffff; color: #000;
+              border: 1px solid #d2d2d7;
+              font-family: Monaco, "Courier New", monospace;
+              font-size: 11px; line-height: 1.6; }
+  .api { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 12px; }
+  .api th { text-align: left; padding: 10px 0 3px; font-size: 10.5px; color: #6e6e73; }
+  .api td { padding: 3px 12px 3px 0; vertical-align: top; border-top: 1px solid #ededed; }
+  .api tr:first-child td { border-top: 0; }
+  .api td:first-child { white-space: nowrap; font-family: ui-monospace, monospace; color: #24406e; }
+
+  .swatches { display: flex; flex-wrap: wrap; gap: 10px; }
+  .sw { width: 96px; font-size: 10.5px; line-height: 1.35; }
+  .sw i { display: block; height: 46px; border-radius: 4px; border: 1px solid rgba(0,0,0,.14); }
+  .sw b { display: block; font-weight: 600; margin-top: 4px; }
+  .sw span { color: #8a8a8a; font-family: ui-monospace, monospace; }
+
+  .type-row { display: flex; align-items: baseline; gap: 14px; padding: 7px 0;
+              border-top: 1px solid #ededed; }
+  .type-row:first-child { border-top: 0; }
+  .type-row .meta { width: 118px; flex: 0 0 auto; font-size: 10.5px;
+                    color: #8a8a8a; font-family: ui-monospace, monospace; }
+
+  .surface { width: 180px; }
+  .surface .face { height: 88px; border-radius: 5px;
+                   border: 1px solid var(--aqua-border); overflow: hidden; }
+  .surface b { display: block; font-size: 11.5px; font-weight: 600; margin-top: 6px; }
+  .surface span { font-size: 10.5px; color: #8a8a8a; }
+
+  .metrics { font-size: 12px; border-collapse: collapse; }
+  .metrics td, .metrics th { padding: 3px 16px 3px 0; text-align: left;
+                             border-top: 1px solid #ededed; }
+  .metrics th { font-size: 10.5px;
+                color: #8a8a8a; font-weight: 600; border-top: 0; }
+  .metrics td:last-child { font-family: ui-monospace, monospace; color: #24406e; }
+</style>
+</head>
+<body>
+<div class="layout">
+  <nav class="sidebar">
+    <div class="brand"><span class="wordmark"><img src="assets/logo-64.png" alt="A">qua&nbsp;UI</span></div>
+    <div class="toc-search aqua"><input type="search" id="tocsearch" placeholder="Search" aria-label="Filter the contents"></div>
+    <ul class="toc">
+      <li class="back"><a href="index.html"><img src="icons/Dock.png" alt="">Desktop</a></li>
+      <li class="group">Foundations</li>
+      <li><a href="#typography">Typography</a></li>
+      <li><a href="#surfaces">Surfaces</a></li>
+      <li><a href="#windows">Windows</a></li>
+      <li class="group">Controls</li>
+      <li><a href="#buttons">Buttons</a></li>
+      <li><a href="#forms">Forms</a></li>
+      <li><a href="#progress">Progress</a></li>
+      <li><a href="#containers">Containers</a></li>
+      <li class="group">Reference</li>
+      <li><a href="#agents">For Agents</a></li>
+      <li><a href="#icons">Icons</a></li>
+    </ul>
+  </nav>
+
+  <main class="content aqua">
+    <header class="hero">
+      <h1 class="wordmark"><img src="assets/logo-128.png" alt="A">qua&nbsp;UI</h1>
+      <p>Aqua UI is a recreation of Mac OS X's classic Aqua UI for the web.</p>
+      <p>This project is maintained by <a href="https://willmeye.rs" target="_blank">Will Meyers</a>.
+      If you remember something about Mac OS X Cheetah and it's missing here, feel free to contribute on
+      <a href="https://github.com/willmeyers/aqua-ui" target="_blank">GitHub</a>.</p>
+      <div class="hero-actions">
+        <aqua-button default onclick="window.open('https://github.com/willmeyers/aqua-ui', '_blank')">GitHub</aqua-button>
+      </div>
+    </header>
+
+    <!-- ========================= FOUNDATIONS ========================= -->

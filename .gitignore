@@ -1,0 +1,16 @@
+# working files: converted disk images + extracted reference PNGs (~21 GB).
+# Everything in here is recreatable from the disc; nothing ships from it.
+.disk/
+
+.DS_Store
+__pycache__/
+*.pyc
+node_modules/
+packages/*/dist/*.tsbuildinfo
+app-art/
+.npmrc
+*.log
+npm-debug.log*
+.claude/
+.idea/
+.vscode/

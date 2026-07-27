@@ -327,7 +327,7 @@
       title: "Documentation", cls: "docs-win", w: W, x: 48, y: 56,
       bodyHTML:
         '<iframe class="docs-frame" src="components.html" title="Aqua UI library reference"></iframe>' +
-        '<div class="status-bar"><span>v1.0.0</span>' +
+        '<div class="status-bar"><span>v0.1.0</span>' +
         '<span class="spacer"></span>' +
         '<span><a href="components.html" target="_blank">Open the documentation</a></span></div>'
     });

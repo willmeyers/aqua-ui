@@ -116,7 +116,7 @@ html, body {
 
 /* the Documentation window: the library docs live in a frame */
 .docs-win .win-content { padding: 0; background: #fff; display: flex; flex-direction: column; }
-.docs-frame { border: 0; display: block; width: 100%; flex: 1 1 auto; height: auto; min-height: 0; }
+.docs-frame { border: 0; display: block; width: 100%; flex: 1 1 auto; height: min(66vh, 640px); }
 .docs-win .status-bar { flex: 0 0 auto; }
 .docs-win .status-bar .spacer { flex: 1; }
 .docs-win .status-bar a { color: #2a5db0; }
@@ -227,18 +227,6 @@ html, body {
     display: flex;
     flex-direction: column;
   }
-  .win .win-content { flex: 1 1 auto; overflow: auto; }
-  .docs-frame { height: 100%; }
+  .win .win-content { flex: 1 1 auto; overflow: auto; min-height: 0; }
+  .docs-frame { height: auto; min-height: 0; }
 }
-
-.docs-win {
-  left: 0 !important;
-  top: 22px !important;
-  width: 100vw !important;
-  max-width: 100vw;
-  height: calc(100vh - 22px);
-  height: calc(100dvh - 22px);
-  display: flex;
-  flex-direction: column;
-}
-.docs-win .win-content { flex: 1 1 auto; min-height: 0; }

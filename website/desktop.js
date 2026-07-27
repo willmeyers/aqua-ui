@@ -307,6 +307,19 @@
     openWins[id] = win;
   }
 
+  function openCheetah() {
+    if (openWins.__cheetah) { focusWin(openWins.__cheetah); return; }
+    const W = 300;
+    const win = makeWin({
+      title: "cheetah.jpg", cls: "cheetah-win", w: W,
+      x: Math.max(24, innerWidth - W - 56),
+      y: Math.max(40, innerHeight - 610),
+      bodyHTML: '<img src="assets/cheetah.jpg" alt="A cheetah sitting on a termite mound">' +
+                '<div class="status-bar"><span>682 × 1023, 155 KB</span></div>',
+    });
+    openWins.__cheetah = win;
+  }
+
   function openDocumentation() {
     if (openWins.__docs) { focusWin(openWins.__docs); return; }
     const W = Math.min(980, Math.max(Math.min(640, innerWidth - 12), Math.round(innerWidth * 0.62)));
@@ -328,9 +341,10 @@
   }
   const openLauncher = openDocumentation;   // old name, kept for the menus
 
-  window.AquaUI = { openComponent, openLauncher, openDocumentation,
+  window.AquaUI = { openComponent, openLauncher, openDocumentation, openCheetah,
     components: () => C.map(({id, title, group}) => ({id, title, group})) };
   openDocumentation();
+  if (innerWidth > 600) openCheetah();
 
   const finder = document.querySelector('.dock-item[data-launch="finder"]');
   if (finder) finder.addEventListener("click", openDocumentation);

@@ -116,6 +116,10 @@ html, body {
 
 /* the Documentation window: the library docs live in a frame */
 .docs-win .win-content { padding: 0; background: #fff; display: flex; flex-direction: column; }
+
+.cheetah-win .win-content { padding: 0; background: #fff; }
+.cheetah-win .win-content img { display: block; width: 100%; height: auto; }
+.cheetah-win .status-bar { border-top: 1px solid #9a9a9a; }
 .docs-frame { border: 0; display: block; width: 100%; flex: 1 1 auto; height: min(66vh, 640px); }
 .docs-win .status-bar { flex: 0 0 auto; }
 .docs-win .status-bar .spacer { flex: 1; }

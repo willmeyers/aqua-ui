@@ -307,19 +307,6 @@
     openWins[id] = win;
   }
 
-  function openCheetah() {
-    if (openWins.__cheetah) { focusWin(openWins.__cheetah); return; }
-    const W = 300;
-    const win = makeWin({
-      title: "cheetah.jpg", cls: "cheetah-win", w: W,
-      x: Math.max(24, innerWidth - W - 56),
-      y: Math.max(40, innerHeight - 610),
-      bodyHTML: '<img src="assets/cheetah.jpg" alt="A cheetah sitting on a termite mound">' +
-                '<div class="status-bar"><span>682 × 1023, 155 KB</span></div>',
-    });
-    openWins.__cheetah = win;
-  }
-
   function openDocumentation() {
     if (openWins.__docs) { focusWin(openWins.__docs); return; }
     const W = Math.min(980, Math.max(Math.min(640, innerWidth - 12), Math.round(innerWidth * 0.62)));
@@ -327,7 +314,7 @@
       title: "Documentation", cls: "docs-win", w: W, x: 48, y: 56,
       bodyHTML:
         '<iframe class="docs-frame" src="components.html" title="Aqua UI library reference"></iframe>' +
-        '<div class="status-bar"><span>v0.1.0</span>' +
+        '<div class="status-bar"><span>v0.1.1</span>' +
         '<span class="spacer"></span>' +
         '<span><a href="components.html" target="_blank">Open the documentation</a></span></div>'
     });
@@ -341,13 +328,11 @@
   }
   const openLauncher = openDocumentation;   // old name, kept for the menus
 
-  window.AquaUI = { openComponent, openLauncher, openDocumentation, openCheetah,
+  window.AquaUI = { openComponent, openLauncher, openDocumentation,
     components: () => C.map(({id, title, group}) => ({id, title, group})) };
   openDocumentation();
-  openCheetah();  // Preview, with something worth previewing
 
   const finder = document.querySelector('.dock-item[data-launch="finder"]');
   if (finder) finder.addEventListener("click", openDocumentation);
   const preview = document.querySelector('.dock-item[data-launch="preview"]');
-  if (preview) preview.addEventListener("click", openCheetah);
 })();

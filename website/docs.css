@@ -153,7 +153,9 @@ section > .desc .asset {
 
 @media (max-width: 720px) {
   .sidebar { display: none; }
-  .content { padding: 24px 18px 80px; }
+  .content { padding: 20px 14px 60px; }
+  .props { overflow-x: auto; }
+  pre { font-size: 11px; }
 }
 
 .icon-search {
@@ -299,3 +301,7 @@ pre .tok-c { color: #007400; }
 .install-grid pre { margin: 8px 0 0 !important; }
 
 #pm { margin-top: 14px; }
+
+@media (max-width: 720px) {
+  .install-grid { grid-template-columns: 1fr; }
+}

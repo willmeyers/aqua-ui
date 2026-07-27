@@ -116,15 +116,11 @@ html, body {
 
 /* the Documentation window: the library docs live in a frame */
 .docs-win .win-content { padding: 0; background: #fff; display: flex; flex-direction: column; }
-.docs-frame { border: 0; display: block; width: 100%; flex: 1 1 auto; height: min(66vh, 640px); }
+.docs-frame { border: 0; display: block; width: 100%; flex: 1 1 auto; height: auto; min-height: 0; }
 .docs-win .status-bar { flex: 0 0 auto; }
 .docs-win .status-bar .spacer { flex: 1; }
 .docs-win .status-bar a { color: #2a5db0; }
 
-/* the Cheetah picture window — Preview showing a photo, edge to edge */
-.cheetah-win .win-content { padding: 0; background: #fff; }
-.cheetah-win .win-content img { display: block; width: 100%; height: auto; }
-.cheetah-win .status-bar { border-top: 1px solid #9a9a9a; }
 .launcher-list { list-style: none; margin: 0; padding: 4px; }
 .launcher-list li {
   display: flex; align-items: center; gap: 9px;
@@ -217,8 +213,7 @@ html, body {
 
 @media (max-width: 600px) {
   body { touch-action: manipulation; }
-  .menu-bar { overflow-x: auto; scrollbar-width: none; }
-  .menu-bar::-webkit-scrollbar { display: none; }
+  .menubar .menu-title { display: none; }
   .desktop-icon { width: 64px; }
   .desktop-icon img { width: 36px; height: 36px; }
   .dock-wrap { display: none; }
@@ -235,3 +230,15 @@ html, body {
   .win .win-content { flex: 1 1 auto; overflow: auto; }
   .docs-frame { height: 100%; }
 }
+
+.docs-win {
+  left: 0 !important;
+  top: 22px !important;
+  width: 100vw !important;
+  max-width: 100vw;
+  height: calc(100vh - 22px);
+  height: calc(100dvh - 22px);
+  display: flex;
+  flex-direction: column;
+}
+.docs-win .win-content { flex: 1 1 auto; min-height: 0; }

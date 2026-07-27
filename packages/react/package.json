@@ -21,7 +21,7 @@
     "test": "node test/smoke.mjs"
   },
   "dependencies": {
-    "@aqua-ui/web-components": "0.0.1"
+    "@aqua-ui/web-components": "0.1.0"
   },
   "peerDependencies": {
     "react": ">=18"
@@ -39,7 +39,6 @@
     "react"
   ],
   "publishConfig": {
-    "access": "public",
-    "tag": "alpha"
+    "access": "public"
   }
 }

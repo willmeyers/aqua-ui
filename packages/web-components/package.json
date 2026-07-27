@@ -1,6 +1,6 @@
 {
   "name": "@aqua-ui/web-components",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Aqua UI as custom elements (light-DOM, form-associated, TypeScript), stylesheet bundled",
   "license": "SEE LICENSE IN README.md",
   "type": "module",
